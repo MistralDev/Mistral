@@ -1,50 +1,63 @@
-# Cathook Training Software
+# Mistral 
+[![C++](https://img.shields.io/badge/language-C%2B%2B-%23f34b7d.svg?style=flat-square)](https://en.wikipedia.org/wiki/C%2B%2B) 
+[![TF2](https://img.shields.io/badge/game-TF2-orange.svg?style=flat-square)](https://store.steampowered.com/app/440/Team_Fortress_2/) 
+[![GNU/Linux](https://img.shields.io/badge/platform-GNU%2FLinux-ff69b4?style=flat-square)](https://www.gnu.org/gnu/linux-and-gnu.en.html) 
+[![x86](https://img.shields.io/badge/arch-x86-red.svg?style=flat-square)](https://en.wikipedia.org/wiki/X86) 
+[![License](https://img.shields.io/github/license/MistralDev/Mistral.svg?style=flat-square)](LICENSE)
+[![Issues](https://img.shields.io/github/issues/MistralDev/Mistral.svg?style=flat-square)](https://github.com/MistralDev/Mistral/issues)
 
-![banner](http://i.imgur.com/w96wdtE.png)
-[![CircleCI](https://circleci.com/gh/nullworks/cathook.svg?style=svg)](https://circleci.com/gh/nullworks/cathook)
+Free open-source GNU/Linux training software for **Team Fortress 2** game. Designed as an internal cheat - [Shared Library](https://en.wikipedia.org/wiki/Library_(computing)#Shared_libraries) (SO) loadable into game process. Compatible with the Steam version of the game.
 
-## Risk of VAC detection
+## Getting started
 
-The software could be detected by VAC in the future. Only use it on accounts you won't regret getting VAC banned.
+### Prerequisites
 
-## Overview
+Prerequisites are handled automatically by the [dependencycheck](https://github.com/MistralDev/Mistral/blob/master/scripts/dependencycheck) script.
 
-Cathook is a training software designed for Team Fortress 2 for Linux. Cathook includes some joke features like
+### Downloading
 
-* Encrypted chat
-* Nullnexus Support (Find other Cathook users in-game automatically)
-* Sandvich aimbot
-* Chance to get manually VAC banned by Valve
+Open a terminal window and enter following command:
 
-and a lot of useful features, including
+    bash <(wget -qO- https://raw.githubusercontent.com/MistralDev/Mistral/master/install-all)
 
-* Working hitscan nospread
-* Anti Backstab with option to use "No" voice command when spy tries to backstab you
-* Extremely customizable spam (you can make spam lines that'll include name of random dead enemy pyro or sniper)
-* Follow Bots
-* Navparser Bots (Walkbots that can walk on any map without manual configuration)
-* Working crit hack (Editors note: Not fully working on all weapons)
-* Backtrack
-* Automatic matchmaking
-* And many more features!
+`Mistral` folder should have been successfully created, containing all the source files.
 
-[FULL LIST OF FEATURES HERE](https://cathook.club/wikis/Feature-List-and-explanations)
+### Compiling from source
 
-# Installing, updating, attaching (injecting)
+When you have equipped a copy of the source code, next step is opening it with your IDE of choice.
 
-[View our short guide to installing and using cathook](https://cathook.club/wikis/Installing,-Attaching-And-General-Infos)
+Then check if your particular CPU supports the `AVX2` instruction set, if not change all `-mavx2` arguements inside [CMakeLists.txt](https://github.com/MistralDev/Mistral/blob/master/CMakeLists.txt) to `-march=native -mtune=native`. This should result in more performant code, optimized for your CPU.
 
-## Community
+And simply run the following command while inside the source folder:
 
-You can chat with other cathook users in [our official Telegram group](https://t.me/nullworks) and
-the [cathook announcements channel](https://t.me/cathook_cheat). If you don't have Telegram, you can chat with other
-cathook users in our official Matrix room, however, you will have to ask TotallyNotElite or BenCat07 for an invite to
-said room.
+    ./update
 
-## Reporting Issues
+If everything went right you should receive `libMistral.so`  binary file.
 
-If some things doesn't work as expected, please open issues on GitHub using [this page](https://cathook.club/issues).
+### Loading / Injecting into game process
 
-## Contributing
+Run the following command while inside the source folder:
 
-Do you want to submit code to cathook? Please read `CONTRIBUTING.md` for a short introduction.
+    sudo ./attach
+
+This will inject `libMistral.so` into `hl2_linux` process.
+
+When injected, menu is openable under `INSERT` key.
+
+## FAQ
+
+### How do I open menu?
+Press <kbd>INSERT</kbd> while focused on TF2 window.
+
+### Where is my config file saved?
+Configuration files are saved inside `Mistral` folder in your `opt` folder (`/opt/Mistral/data`). The config is in human readable format and can be edited via your text editor of choice.
+
+## Acknowledgments
+
+*   [nullworks](https://github.com/nullworks) and [contributors](https://github.com/nullworks/cathook/graphs/contributors) for creating and maintaining a GNU/Linux TF2 training software - [cathook](https://github.com/nullworks/cathook).
+*   [ocornut](https://github.com/ocornut) and [contributors](https://github.com/ocornut/imgui/graphs/contributors) for creating and maintaining an amazing GUI library - [Dear imgui](https://github.com/ocornut/imgui).
+*   [nlohmann](https://github.com/nlohmann) and [contributors](https://github.com/nlohmann/json/graphs/contributors) for creating and maintaining JSON for modern C++ - [json](https://github.com/nlohmann/json).
+*   [danielkrupinski](https://github.com/danielkrupinski/Osiris) - for creating his README file that I used as a template.
+
+## See also
+*   [cathook](https://github.com/nullworks/cathook) - Training software that I started on.

@@ -1,10 +1,33 @@
-#!/ usr / bin / env bash
-
-set - e
+#!/usr/bin/env bash
 
 #
-#Build cathook
+# Install git
 #
 
-              ./
-          scripts / updater false true true
+SUDO=${CH_SUDO:-sudo}
+
+if [ -x "$(command -v pacman)" ] && [ ! -x "$(command -v git)" ]; then
+  $SUDO pacman -S --needed --noconfirm git
+elif [ -x "$(command -v apt)" ] && [ ! -x "$(command -v git)" ]; then
+  $SUDO apt install git -y
+fi
+
+#
+# Clone Mistral
+#
+
+git clone --depth 1 https://github.com/MistralDev/Mistral
+
+#
+# Run Mistral's install all script
+#
+
+pushd Mistral
+set -e
+
+#
+# Build cathook
+#
+
+./scripts/updater false true true
+popd

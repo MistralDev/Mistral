@@ -21,13 +21,13 @@ endif ()
 set(CMAKE_BUILD_TYPE_VALUES "Debug;Release" CACHE INTERNAL "List of supported build")
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS ${CMAKE_BUILD_TYPE_VALUES})
 
-project(cathook VERSION 0.0.1)
+project(Mistral)
 
 set(CMAKE_CXX_STANDARD 17)
-add_library(cathook SHARED "")
+add_library(Mistral SHARED "")
 
 set(Visuals_DrawType "IMGUI" CACHE STRING "Target drawing api")
-set(DrawTypes "Textmode;No Visuals;Glez;Engine;IMGUI;IMGUI Streamproof" CACHE INTERNAL "Select the drawing api that cathook should use")
+set(DrawTypes "Textmode;No Visuals;Glez;Engine;IMGUI;IMGUI Streamproof" CACHE INTERNAL "Select the drawing api that Mistral should use")
 set_property(CACHE Visuals_DrawType PROPERTY STRINGS ${DrawTypes})
 set(Visuals_EnforceStreamSafety 1 CACHE BOOL "If a streamsafe drawing method is used, this will remove features that are not streamsafe.")
 
@@ -60,7 +60,7 @@ endif ()
 set(EnableProfiler 0 CACHE BOOL "Enable Profiler")
 set(EnableGUI 1 CACHE BOOL "Enable GUI")
 set(EnableIPC 1 CACHE BOOL "Enable IPC")
-set(DataPath "/opt/cathook/data" CACHE FILEPATH "Data location")
+set(DataPath "/opt/Mistral/data" CACHE FILEPATH "Data location")
 set(VACBypass 0 CACHE BOOL "Textmode VAC bypass")
 set(EnableTextmodeStdin 0 CACHE BOOL "Textmode Stdin -> Console bridge (EXPERIMENTAL)")
 set(EnableWarnings 0 CACHE BOOL "Enable compile warnings")
@@ -75,10 +75,10 @@ endif ()
 # Internal variables
 # INTERNAL implies "FORCE" by default, so don't set if already set
 if (NOT DEFINED Internal_Binarymode)
-    set(Internal_Binarymode 0 CACHE INTERNAL "Build cathook to be used in 'binary mode'")
+    set(Internal_Binarymode 0 CACHE INTERNAL "Build Mistral to be used in 'binary mode'")
 endif ()
 if (NOT DEFINED Internal_Symbolized)
-    set(Internal_Symbolized 0 CACHE INTERNAL "Build cathook with symbols so crashes can be sent")
+    set(Internal_Symbolized 0 CACHE INTERNAL "Build Mistral with symbols so crashes can be sent")
 endif ()
 
 #
@@ -89,8 +89,8 @@ if (EnableVisuals)
     set(OpenGL_GL_PREFERENCE "LEGACY")
     if (EnableImGuiDrawing)
         find_package(Freetype REQUIRED)
-        target_include_directories(cathook PRIVATE "${FREETYPE_INCLUDE_DIRS}")
-        target_link_libraries(cathook ${FREETYPE_LIBRARIES})
+        target_include_directories(Mistral PRIVATE "${FREETYPE_INCLUDE_DIRS}")
+        target_link_libraries(Mistral ${FREETYPE_LIBRARIES})
     endif ()
 endif ()
 
@@ -123,32 +123,32 @@ find_library(ValveLibraryVStdLib NAMES vstdlib PATHS "${PROJECT_SOURCE_DIR}/lib"
 
 if (EnableIPC)
     add_subdirectory(external/simple-ipc)
-    target_link_libraries(cathook SimpleIPC)
+    target_link_libraries(Mistral SimpleIPC)
 endif ()
 
 if (EnableNullNexus)
     add_subdirectory(external/libnullnexus)
-    target_link_libraries(cathook libnullnexus)
+    target_link_libraries(Mistral libnullnexus)
 endif ()
 
 if (EnableVisuals)
     if (EnableGlezDrawing)
         add_subdirectory(external/libglez)
     endif ()
-    target_include_directories(cathook PRIVATE include/visual)
+    target_include_directories(Mistral PRIVATE include/visual)
     find_package(SDL2 REQUIRED)
     if (ExternalDrawing)
         add_subdirectory(external/libxoverlay)
-        target_link_libraries(cathook xoverlay)
-        target_include_directories(cathook PRIVATE external/libxoverlay/include)
+        target_link_libraries(Mistral xoverlay)
+        target_include_directories(Mistral PRIVATE external/libxoverlay/include)
     endif ()
-    target_include_directories(cathook PRIVATE "${SDL2_INCLUDE_DIR}")
+    target_include_directories(Mistral PRIVATE "${SDL2_INCLUDE_DIR}")
     if (EnableGlezDrawing)
-        target_link_libraries(cathook glez)
+        target_link_libraries(Mistral glez)
     endif ()
     if (EnableGlezDrawing)
         find_package(GLEW REQUIRED)
-        target_link_libraries(cathook ${GLEW_LIBRARIES})
+        target_link_libraries(Mistral ${GLEW_LIBRARIES})
     endif ()
 endif ()
 
@@ -163,7 +163,7 @@ else ()
     set(CMAKE_CXX_FLAGS_RELEASE "-m32 -mavx2 -O3 -s -fvisibility=hidden -fvisibility-inlines-hidden")
 endif ()
 
-target_compile_definitions(cathook PRIVATE
+target_compile_definitions(Mistral PRIVATE
         _GLIBCXX_USE_CXX11_ABI=0
         _POSIX=1
         FREETYPE_GL_USE_VAO=1
@@ -175,7 +175,7 @@ target_compile_definitions(cathook PRIVATE
         GNUC=1
         NO_MALLOC_OVERRIDE=1)
 
-target_include_directories(cathook SYSTEM PRIVATE
+target_include_directories(Mistral SYSTEM PRIVATE
         "external/source-sdk-2013-headers/mp/src/mathlib"
         "external/source-sdk-2013-headers/mp/src/public"
         "external/source-sdk-2013-headers/mp/src/common"
@@ -185,25 +185,24 @@ target_include_directories(cathook SYSTEM PRIVATE
         "external/source-sdk-2013-headers/mp/src")
 
 if (EnableWarnings)
-    target_compile_options(cathook PRIVATE -Wall -Wextra -Wno-unused-parameter -Wno-class-memaccess -Wno-strict-aliasing -Wno-sign-compare)
+    target_compile_options(Mistral PRIVATE -Wall -Wextra -Wno-unused-parameter -Wno-class-memaccess -Wno-strict-aliasing -Wno-sign-compare)
 else ()
-    target_compile_options(cathook PRIVATE -w)
+    target_compile_options(Mistral PRIVATE -w)
 endif ()
 if (Internal_Binarymode)
-    target_compile_options(cathook PRIVATE -march=x86-64)
+    target_compile_options(Mistral PRIVATE -march=x86-64)
 endif ()
 
 
-target_include_directories(cathook PRIVATE include include/hooks)
+target_include_directories(Mistral PRIVATE include include/hooks)
 
 add_custom_target(data
         bash ./install-data "${DataPath}"
         WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         VERBATIM)
 
-# SDL included because of https://cathook.club/issues/689
-target_link_libraries(cathook ${ValveLibraryVStdLib} ${SDL2_LIBRARY})
-set_target_properties(cathook PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+target_link_libraries(Mistral ${ValveLibraryVStdLib} ${SDL2_LIBRARY})
+set_target_properties(Mistral PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 add_subdirectory(src)
 add_subdirectory(include)
@@ -211,13 +210,13 @@ add_subdirectory(external)
 add_subdirectory(modules)
 
 if (EnablePrecompiledHeaders AND NativePrecompiledHeaders)
-    target_precompile_headers(cathook PRIVATE "${CMAKE_SOURCE_DIR}/include/common.hpp")
+    target_precompile_headers(Mistral PRIVATE "${CMAKE_SOURCE_DIR}/include/common.hpp")
 endif ()
 
 if (NOT Internal_Symbolized)
-    add_custom_command(TARGET cathook POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:cathook> "${CMAKE_SOURCE_DIR}/bin/$<TARGET_FILE_NAME:cathook>")
+    add_custom_command(TARGET Mistral POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Mistral> "${CMAKE_SOURCE_DIR}/bin/$<TARGET_FILE_NAME:Mistral>")
 else ()
     message("Symbolized build")
-    set(Internal_Symbolized 0 CACHE INTERNAL "Build cathook with symbols so crashes can be sent" FORCE)
+    set(Internal_Symbolized 0 CACHE INTERNAL "Build Mistral with symbols so crashes can be sent" FORCE)
 endif ()

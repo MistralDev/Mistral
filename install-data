@@ -2,7 +2,7 @@
 
 [[ ! -z "$SUDO_USER" ]] && user=$SUDO_USER || user=$LOGNAME
 
-DATA_PATH=${1:-/opt/cathook/data}
+DATA_PATH=${1:-/opt/Mistral/data}
 
 if ! [ -d "$DATA_PATH" ]; then
     echo "Creating cathook data directory at $DATA_PATH"

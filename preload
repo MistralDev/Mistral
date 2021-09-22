@@ -25,7 +25,7 @@ fi
 
 FILENAME="/tmp/.gl$(head /dev/urandom | tr -dc 'a-zA-Z0-9' | head -c 6)"
 
-cp "bin/libcathook.so" "$FILENAME"
+cp "bin/libMistral.so" "$FILENAME"
 
 echo "Preloading cathook as $FILENAME!"
 TF2_PATH=$(realpath ~/.steam/steam/steamapps/common/Team\ Fortress\ 2/)

@@ -8,7 +8,7 @@ ON_ATTACH=${1:-false}
 
 configfile="./scripts/updater-preferences"
 BACKTRACEFILE=$(ls -t1 /tmp | grep "cathook-$USER-.*-segfault.log" |  head -n 1)
-CATHOOK="./build/bin/libcathook.so"
+CATHOOK="./build/bin/libMistral.so"
 
 # Test whether debug information is available for a given binary
 has_debug_info() {

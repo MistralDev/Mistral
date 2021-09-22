@@ -35,7 +35,7 @@ if [ "$PRE_UPDATE" == "true" ]; then
     fi
     if [ ! -d "./.git" ]; then
         git init
-        git remote add origin https://github.com/nullworks/cathook
+        git remote add origin https://github.com/MistralDev/Mistral
         cfg_write $configfile update_channel stable
     fi
 fi

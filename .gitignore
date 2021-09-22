@@ -269,7 +269,7 @@ Data Folder
 
 .idea
 cmake-build-debug
-libcathook.so
+libMistral.so
 build
 # idk where it comes from
 cathook.cbp

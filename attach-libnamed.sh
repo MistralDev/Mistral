@@ -40,7 +40,7 @@ done
 
 # echo $FILENAME > build_id # For detaching
 
-sudo cp "bin/libcathook.so" "/lib/i386-linux-gnu/${FILENAME}"
+sudo cp "bin/libMistral.so" "/lib/i386-linux-gnu/${FILENAME}"
 
 echo loading "$FILENAME" to "$proc"
 
