@@ -30,15 +30,17 @@ Then check if your particular CPU supports the `AVX2` instruction set, if not ch
 
 And simply run the following command while inside the source folder:
 
-    ./update
+    ./toolbox.sh -b
 
 If everything went right you should receive `libMistral.so`  binary file.
 
 ### Loading / Injecting into game process
 
+The loading script will try to disguise Mistral as the [gamemode](https://github.com/FeralInteractive/gamemode) library. If you happen to be using it, change `libgamemodeauto.so.0` inside [toolbox.sh](https://github.com/MistralDev/Mistral/blob/master/toolbox.sh) to other library names.
+
 Run the following command while inside the source folder:
 
-    sudo ./attach
+    ./toolbox.sh -l
 
 This will inject `libMistral.so` into `hl2_linux` process.
 
@@ -57,6 +59,7 @@ Configuration files are saved inside `Mistral` folder in your `opt` folder (`/op
 *   [nullworks](https://github.com/nullworks) and [contributors](https://github.com/nullworks/cathook/graphs/contributors) for creating and maintaining a GNU/Linux TF2 training software - [cathook](https://github.com/nullworks/cathook).
 *   [ocornut](https://github.com/ocornut) and [contributors](https://github.com/ocornut/imgui/graphs/contributors) for creating and maintaining an amazing GUI library - [Dear imgui](https://github.com/ocornut/imgui).
 *   [nlohmann](https://github.com/nlohmann) and [contributors](https://github.com/nlohmann/json/graphs/contributors) for creating and maintaining JSON for modern C++ - [json](https://github.com/nlohmann/json).
+*   [seksea](https://github.com/seksea) for creating a convenient toolbox.sh utility.
 *   [danielkrupinski](https://github.com/danielkrupinski/Osiris) - for creating his README file that I used as a template.
 
 ## See also

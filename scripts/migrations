@@ -79,8 +79,8 @@ function migrations() {
     # Hack to fix compile error in version 1 to 4 caused by CoTiRe on legacy ubuntu.
     if [ "$version" -lt 6 ]; then
         cfg_write $configfile version 6
-        if [ -d "./build/CMakeFiles/cathook.dir" ]; then
-            rm -r ./build/CMakeFiles/cathook.dir
+        if [ -d "./build/CMakeFiles/Mistral.dir" ]; then
+            rm -r ./build/CMakeFiles/Mistral.dir
         fi
     fi
 

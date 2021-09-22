@@ -5,13 +5,13 @@
 DATA_PATH=${1:-/opt/Mistral/data}
 
 if ! [ -d "$DATA_PATH" ]; then
-    echo "Creating cathook data directory at $DATA_PATH"
+    echo "Creating Mistral data directory at $DATA_PATH"
     mkdir -p "$DATA_PATH"
     chown -R $user "$DATA_PATH"
     chmod -R 774 "$DATA_PATH"
 fi
 
-echo "Installing cathook data to $DATA_PATH"
+echo "Installing Mistral data to $DATA_PATH"
 rsync -avh "data/" "$DATA_PATH"
 rsync -avh --ignore-existing "config_data/" "$DATA_PATH"
 chown -R $user "$DATA_PATH"

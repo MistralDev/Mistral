@@ -4,4 +4,4 @@ set(files "${CMAKE_CURRENT_LIST_DIR}/C_MannVsMachineStats.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/CTFParty.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/CTFGCClientSystem.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ITFGroupMatchCriteria.cpp")
-target_sources(cathook PRIVATE ${files})
+target_sources(Mistral PRIVATE ${files})

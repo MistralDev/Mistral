@@ -4,9 +4,9 @@ set(files "${CMAKE_CURRENT_LIST_DIR}/Manager.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/SettingCommands.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/SettingsIO.cpp")
 
-target_sources(cathook PRIVATE ${files})
+target_sources(Mistral PRIVATE ${files})
 
 if (EnableVisuals)
     set(files "${CMAKE_CURRENT_LIST_DIR}/ConfigUI.cpp")
-    target_sources(cathook PRIVATE ${files})
+    target_sources(Mistral PRIVATE ${files})
 endif ()

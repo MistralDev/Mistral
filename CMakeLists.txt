@@ -119,7 +119,7 @@ execute_process(COMMAND
         ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 set(CMAKE_SKIP_RPATH true)
-find_library(ValveLibraryVStdLib NAMES vstdlib PATHS "${PROJECT_SOURCE_DIR}/lib" NO_DEFAULT_PATH)
+find_library(ValveLibraryVStdLib NAMES vstdlib PATHS "${PROJECT_SOURCE_DIR}/bin" NO_DEFAULT_PATH)
 
 if (EnableIPC)
     add_subdirectory(external/simple-ipc)

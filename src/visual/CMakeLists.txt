@@ -12,7 +12,7 @@ if (EnableGUI)
     list(APPEND files "${CMAKE_CURRENT_LIST_DIR}/GUISnow.cpp")
 endif ()
 
-target_sources(cathook PRIVATE ${files})
+target_sources(Mistral PRIVATE ${files})
 
 if (EnableImGuiDrawing)
     add_subdirectory(imgui)

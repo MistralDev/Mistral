@@ -19,15 +19,10 @@ fi
 git clone --depth 1 https://github.com/MistralDev/Mistral
 
 #
-# Run Mistral's install all script
+# Run Mistral's build script
 #
 
 pushd Mistral
-set -e
-
-#
-# Build cathook
-#
-
-./scripts/updater false true true
+$SUDO chmod +x toolbox.sh
+bash ./toolbox.sh -b
 popd

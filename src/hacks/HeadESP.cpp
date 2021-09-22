@@ -51,7 +51,6 @@ static void cm()
 }
 
 static draw::Texture atlas{ paths::getDataPath("/textures/atlas.png") };
-static draw::Texture idspec{ paths::getDataPath("/textures/idspec.png") };
 
 void draw()
 {
@@ -70,49 +69,32 @@ void draw()
         if (draw::WorldToScreen(hitp[i], out))
         {
             auto distance = pEntity->m_flDistance();
-            if (*mode == 1)
+            switch (*mode)
             {
-                float thickness = ((1250.0f * *size_scaling) / (distance + 10)) + 15;
-                draw::Circle(out.x, out.y, 1, hacks::headesp::HeadESPColor(pEntity), thickness, 100);
-            }
-            else if (*mode == 2 || *mode == 3 || *mode == 4)
-            {
-                float size = ((2500.0f * *size_scaling) / (distance + 10)) + 15;
-                player_info_s info{};
-                unsigned int steamID = 0;
-                unsigned int steamidarray[32]{};
-                bool hascall    = false;
-                steamidarray[0] = 479487126;
-                steamidarray[1] = 263966176;
-                steamidarray[2] = 840255344;
-                steamidarray[3] = 147831332;
-                steamidarray[4] = 854198748;
-                if (GetPlayerInfo(pEntity->m_IDX, &info))
-                    steamID = info.friendsID;
-                if (playerlist::AccessData(steamID).state == playerlist::k_EState::CAT)
-                    draw::RectangleTextured(out.x - size / 2, out.y - size / 2, size, size, colors::white, idspec, 2 * 64, 1 * 64, 64, 64, 0);
-                for (int i = 0; i < 4; i++)
+                case 1:
                 {
-                    if (steamID == steamidarray[i])
+                    float thickness = ((1250.0f * *size_scaling) / (distance + 10)) + 15;
+                    draw::Circle(out.x, out.y, 1, hacks::headesp::HeadESPColor(pEntity), thickness, 100);
+                    break;
+                }
+                default:
+                {
+                    float size = ((2500.0f * *size_scaling) / (distance + 10)) + 15;
+                    switch (*mode)
                     {
-                        static int ii = 1;
-                        while (i > 3)
+                        case 2:
                         {
-                            ii++;
-                            i -= 4;
+                            int emojiClass = CE_INT(pEntity, netvar.iClass) - 1;
+                            draw::RectangleTextured(out.x - size / 2, out.y - size / 2, size, size, colors::white, atlas, emojiClass * 64, 5 * 64, 64, 64, 0);
+                            break;
                         }
-                        draw::RectangleTextured(out.x - size / 2, out.y - size / 2, size, size, colors::white, idspec, i * 64, ii * 64, 64, 64, 0);
-                        hascall = true;
+                        default:
+                        {
+                            draw::RectangleTextured(out.x - size / 2, out.y - size / 2, size, size, colors::white, atlas, (1 + *mode) * 64, 4 * 64, 64, 64, 0);
+                            break;
+                        }
                     }
-                }
-                if (!hascall && *mode == 2)
-                {
-                    int emojiClass = CE_INT(pEntity, netvar.iClass) - 1;
-                    draw::RectangleTextured(out.x - size / 2, out.y - size / 2, size, size, colors::white, atlas, emojiClass * 64, 5 * 64, 64, 64, 0);
-                }
-                else if (!hascall)
-                {
-                    draw::RectangleTextured(out.x - size / 2, out.y - size / 2, size, size, colors::white, atlas, (1 + *mode) * 64, 4 * 64, 64, 64, 0);
+                    break;
                 }
             }
         }

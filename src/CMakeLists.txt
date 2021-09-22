@@ -36,7 +36,7 @@ set(files "${CMAKE_CURRENT_LIST_DIR}/angles.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/PlayerTools.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/SetupBonesReconst.cpp")
 
-target_sources(cathook PRIVATE ${files})
+target_sources(Mistral PRIVATE ${files})
 add_subdirectory(core)
 add_subdirectory(classinfo)
 add_subdirectory(copypasted)

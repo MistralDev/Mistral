@@ -1,4 +1,4 @@
-target_include_directories(cathook PRIVATE "${CMAKE_CURRENT_LIST_DIR}")
+target_include_directories(Mistral PRIVATE "${CMAKE_CURRENT_LIST_DIR}")
 
 add_subdirectory(core)
 add_subdirectory(classinfo)

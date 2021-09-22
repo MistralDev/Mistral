@@ -13,4 +13,4 @@ set(files "${CMAKE_CURRENT_LIST_DIR}/basically_the_whole_mathlib.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/utlsymbol.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/UtlString.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/netmessage.cpp")
-target_sources(cathook PRIVATE ${files})
+target_sources(Mistral PRIVATE ${files})

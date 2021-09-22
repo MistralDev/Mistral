@@ -39,7 +39,7 @@ set(files "${CMAKE_CURRENT_LIST_DIR}/AutoJoin.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/UberSpam.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Walkbot.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Warp.cpp")
-target_sources(cathook PRIVATE ${files})
+target_sources(Mistral PRIVATE ${files})
 
 add_subdirectory(ac)
 if (EnableVisuals)
@@ -55,5 +55,5 @@ if (EnableVisuals)
             "${CMAKE_CURRENT_LIST_DIR}/Thirdperson.cpp"
             "${CMAKE_CURRENT_LIST_DIR}/MCHealthbar.cpp"
             "${CMAKE_CURRENT_LIST_DIR}/Ragdolls.cpp")
-    target_sources(cathook PRIVATE ${files})
+    target_sources(Mistral PRIVATE ${files})
 endif ()

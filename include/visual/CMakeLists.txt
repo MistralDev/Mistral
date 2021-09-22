@@ -6,4 +6,4 @@ if (EnableImGuiDrawing)
     add_subdirectory(imgui)
 endif ()
 
-target_include_directories(cathook PRIVATE "${CMAKE_CURRENT_LIST_DIR}")
+target_include_directories(Mistral PRIVATE "${CMAKE_CURRENT_LIST_DIR}")
