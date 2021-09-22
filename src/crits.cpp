@@ -263,19 +263,19 @@ bool shouldMeleeCrit()
 {
     if (!melee || g_pLocalPlayer->weapon_mode != weapon_melee)
         return false;
-    if (hacks::tf2::backtrack::backtrackEnabled())
+    if (hacks::backtrack::backtrackEnabled())
     {
         // Closest tick for melee
-        std::optional<hacks::tf2::backtrack::BacktrackData> closest_tick = std::nullopt;
-        float best_distance                                              = FLT_MAX;
+        std::optional<hacks::backtrack::BacktrackData> closest_tick = std::nullopt;
+        float best_distance                                         = FLT_MAX;
 
-        if (hacks::tf2::backtrack::hasData())
+        if (hacks::backtrack::hasData())
         {
-            closest_tick = hacks::tf2::backtrack::getData();
+            closest_tick = hacks::backtrack::getData();
         }
         else
         {
-            for (auto &ent_data : hacks::tf2::backtrack::bt_data)
+            for (auto &ent_data : hacks::backtrack::bt_data)
             {
                 for (auto &tick : ent_data)
                 {
@@ -423,7 +423,7 @@ bool prevent_crit()
 void force_crit()
 {
     // Can't use normal methods here
-    if (hacks::tf2::antianticheat::enabled)
+    if (hacks::antianticheat::enabled)
     {
         // We have to ignore these sadly
         if (CE_GOOD(LOCAL_W) && (LOCAL_W->m_iClassID() == CL_CLASS(CTFCannon) || LOCAL_W->m_iClassID() == CL_CLASS(CTFPipebombLauncher) || CE_INT(LOCAL_W, netvar.iItemDefinitionIndex) == 730))
@@ -853,50 +853,50 @@ void Draw()
             if (shouldCrit())
             {
                 if (can_crit)
-                    AddCritString("Forcing Crits!", colors::red_s);
+                    AddCritString("Forcing crits", colors::red_s);
                 else
-                    AddCritString("Weapon can currently not crit!", colors::red_s);
+                    AddCritString("Crit banned", colors::red_s);
             }
 
             // Weapon can't randomly crit
             if (!re::C_TFWeaponBase::CanFireCriticalShot(RAW_ENT(LOCAL_W), false, nullptr) || !added_per_shot)
             {
-                AddCritString("Weapon cannot randomly crit.", colors::red_s);
+                AddCritString("Weapon cannot randomly crit", colors::red_s);
                 DrawCritStrings();
                 return;
             }
 
             // We are out of sync. RIP
             if (is_out_of_sync)
-                AddCritString("Out of sync.", colors::red_s);
+                AddCritString("Out of sync", colors::red_s);
             // Observed crit chance is not low enough, display how much damage is needed until we can crit again
             else if (crit_mult_info.first > crit_mult_info.second && g_pLocalPlayer->weapon_mode != weapon_melee)
-                AddCritString("Damage Until crit: " + std::to_string(damageUntilToCrit(wep)), colors::orange);
+                AddCritString(std::to_string(int(damageUntilToCrit(wep))) + " damage required", colors::yellow);
             else if (!can_crit)
             {
                 if (isRapidFire(wep))
                 {
                     std::string crit_string = "Shots until crit: ";
                     weapon_info info(wep);
-                    crit_string += std::to_string((info.crit_count + 1) * 10.0f - info.crit_attempts - 1);
+                    crit_string += std::to_string(int((info.crit_count + 1) * 10.0f - info.crit_attempts - 1));
                     if (info.m_flCritTime + 1.0f >= g_GlobalVars->curtime)
                     {
                         crit_string += ", ";
-                        crit_string += std::to_string(info.m_flCritTime + 1.0f - g_GlobalVars->curtime) + "s";
+                        crit_string += std::to_string(int(info.m_flCritTime + 1.0f - g_GlobalVars->curtime)) + "s";
                         AddCritString(crit_string, colors::red);
                     }
                     else
                         AddCritString(crit_string, colors::orange);
                 }
                 else
-                    AddCritString("Shots until crit: " + std::to_string(shots_until_crit), colors::orange);
+                    AddCritString("Shots until crit: " + std::to_string(int(shots_until_crit)), colors::orange);
             }
 
             // Mark bucket as ready/not ready
             auto color = colors::red_s;
             if (can_crit && (crit_mult_info.first <= crit_mult_info.second || g_pLocalPlayer->weapon_mode != weapon_melee))
                 color = colors::green;
-            AddCritString("Crit Bucket: " + std::to_string(bucket), color);
+            AddCritString("Crit bucket: " + std::to_string(int(bucket)), color);
         }
 
         // Draw Bar
@@ -950,23 +950,23 @@ void Draw()
                     draw::Rectangle(*bar_x, *bar_y, bar_bg_x_size * bucket_percentage, bar_bg_y_size, bucket_color);
 
                     if (is_out_of_sync)
-                        bar_string = "Out of sync.";
+                        bar_string = "Out of sync";
                     else if (crit_mult_info.first > crit_mult_info.second && g_pLocalPlayer->weapon_mode != weapon_melee)
-                        bar_string = std::to_string(damageUntilToCrit(wep)) + " Damage until Crit!";
+                        bar_string = std::to_string(int(damageUntilToCrit(wep))) + " damage required";
                     else
                     {
                         if (!isRapidFire(wep))
                         {
-                            bar_string = std::to_string(shots_until_crit) + " Shots until Crit!";
+                            bar_string = std::to_string(int(shots_until_crit)) + " Shots until crit";
                         }
                         else
                         {
 
                             weapon_info info(wep);
-                            std::string crit_string = std::to_string((info.crit_count + 1) * 10.0f - info.crit_attempts - 1);
-                            crit_string += " Shots until Crit! ";
+                            std::string crit_string = std::to_string(int((info.crit_count + 1) * 10.0f - info.crit_attempts - 1));
+                            crit_string += " Shots until crit ";
                             if (info.m_flCritTime + 1.0f >= g_GlobalVars->curtime)
-                                crit_string += std::to_string(info.m_flCritTime + 1.0f - g_GlobalVars->curtime) + "s";
+                                crit_string += std::to_string(int(info.m_flCritTime + 1.0f - g_GlobalVars->curtime)) + "s";
 
                             bar_string = crit_string;
                         }

@@ -7,7 +7,7 @@
 
 namespace zerokernel_table
 {
-static settings::RVariable<rgba_t> color_border{ "zk.style.table.color.border", "446498ff" };
+static settings::RVariable<rgba_t> color_border{ "zk.style.table.color.border", "000000ff" };
 }
 void zerokernel::Table::render()
 {

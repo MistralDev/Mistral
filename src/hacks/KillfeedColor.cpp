@@ -11,7 +11,7 @@
 #include <string>
 
 #if !ENFORCE_STREAM_SAFETY
-namespace hacks::tf2::killfeed
+namespace hacks::killfeed
 {
 static settings::Boolean enable{ "visual.killfeedcolor.enable", "true" };
 static settings::Boolean sort_names{ "visual.killfeedcolor.sort-names", "false" };
@@ -86,6 +86,8 @@ void DrawText_hook(int *_this, int x, int y, vgui::HFont hFont, Color clr, const
                               case playerlist::k_EState::FRIEND:
                                   return 2;
                               case playerlist::k_EState::RAGE:
+                              case playerlist::k_EState::PAZER:
+                              case playerlist::k_EState::ABUSE:
                                   return 3;
                               default:
                                   return 1;
@@ -149,5 +151,5 @@ static InitRoutine init(
         EC::Register(
             EC::Shutdown, []() { drawtext_detour.Shutdown(); }, "shutdown_kf");
     });
-} // namespace hacks::tf2::killfeed
+} // namespace hacks::killfeed
 #endif

@@ -4,10 +4,10 @@
 
 #include <menu/object/TabButton.hpp>
 
-static settings::RVariable<rgba_t> color_selected{ "zk.style.tab-button.color.selected.background", "446498ff" };
-static settings::RVariable<rgba_t> color_separator{ "zk.style.tab-button.color.separator", "446498ff" };
-static settings::RVariable<rgba_t> color_hover_underline{ "zk.style.tab-button.color.hover.underline", "446498ff" };
-static settings::RVariable<rgba_t> color_selected_underline{ "zk.style.tab-button.color.selected.underline", "446498ff" };
+static settings::RVariable<rgba_t> color_selected{ "zk.style.tab-button.color.selected.background", "1f1f1fff" };
+static settings::RVariable<rgba_t> color_separator{ "zk.style.tab-button.color.separator", "000000ff" };
+static settings::RVariable<rgba_t> color_hover_underline{ "zk.style.tab-button.color.hover.underline", "ffa200ff" };
+static settings::RVariable<rgba_t> color_selected_underline{ "zk.style.tab-button.color.selected.underline", "ffa200ff" };
 
 static settings::RVariable<rgba_t> color_text_selected{ "zk.style.tab-button.color.text.selected", "ffffff" };
 static settings::RVariable<rgba_t> color_text{ "zk.style.tab-button.color.text.inactive", "cccccc" };

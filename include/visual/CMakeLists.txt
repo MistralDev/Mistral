@@ -1,9 +1,9 @@
-if(EnableGUI)
+if (EnableGUI)
     add_subdirectory(menu)
-endif()
+endif ()
 
-if(EnableImGuiDrawing)
+if (EnableImGuiDrawing)
     add_subdirectory(imgui)
-endif()
+endif ()
 
 target_include_directories(cathook PRIVATE "${CMAKE_CURRENT_LIST_DIR}")

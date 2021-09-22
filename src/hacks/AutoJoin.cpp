@@ -13,7 +13,7 @@
 #include "hack.hpp"
 #include "MiscTemporary.hpp"
 
-namespace hacks::shared::autojoin
+namespace hacks::autojoin
 {
 static settings::Boolean autojoin_team{ "autojoin.team", "false" };
 static settings::Int autojoin_class{ "autojoin.class", "0" };
@@ -105,7 +105,7 @@ void updateSearch()
 #if not ENABLE_VISUALS
     if (queue_time.test_and_set(1200000))
     {
-        g_IEngine->ClientCmd_Unrestricted("quit"); //lol
+        g_IEngine->ClientCmd_Unrestricted("quit"); // lol
     }
 #endif
 }
@@ -169,4 +169,4 @@ static InitRoutine init(
             },
             "shutdown_autojoin");
     });
-} // namespace hacks::shared::autojoin
+} // namespace hacks::autojoin

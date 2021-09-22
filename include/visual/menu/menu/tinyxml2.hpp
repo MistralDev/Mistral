@@ -493,7 +493,8 @@ private:
     MemPoolT(const MemPoolT &);       // not supported
     void operator=(const MemPoolT &); // not supported
 
-    union Item {
+    union Item
+    {
         Item *next;
         char itemData[ITEM_SIZE];
     };
@@ -1908,7 +1909,7 @@ public:
         specified, TinyXML-2 will assume 'xml' points to a
         null terminated string.
     */
-    XMLError Parse(const char *xml, size_t nBytes = (size_t)(-1));
+    XMLError Parse(const char *xml, size_t nBytes = (size_t) (-1));
 
     /**
         Load an XML file from disk.

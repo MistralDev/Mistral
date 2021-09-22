@@ -11,7 +11,7 @@
 
 class CatCommand;
 
-namespace hacks::shared::spam
+namespace hacks::spam
 {
 
 extern const std::vector<std::string> builtin_default;
@@ -25,4 +25,4 @@ bool isActive();
 void init();
 void createMove();
 void reload();
-} // namespace hacks::shared::spam
+} // namespace hacks::spam

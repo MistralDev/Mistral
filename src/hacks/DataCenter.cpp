@@ -96,8 +96,8 @@ static std::vector<std::string> africa_datacenters        = { { "jnb" } };
 static CatCommand print("dc_print", "Print codes of all available data centers",
                         []()
                         {
-                            static auto GetPOPCount = *(int (**)(void *))(*(uintptr_t *) g_ISteamNetworkingUtils + 37);
-                            static auto GetPOPList  = *(int (**)(void *, SteamNetworkingPOPID_decl *, int))(*(uintptr_t *) g_ISteamNetworkingUtils + 41);
+                            static auto GetPOPCount = *(int(**)(void *))(*(uintptr_t *) g_ISteamNetworkingUtils + 37);
+                            static auto GetPOPList  = *(int(**)(void *, SteamNetworkingPOPID_decl *, int))(*(uintptr_t *) g_ISteamNetworkingUtils + 41);
 
                             char region[5];
 

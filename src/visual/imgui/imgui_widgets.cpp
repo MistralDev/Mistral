@@ -1952,7 +1952,7 @@ template <typename TYPE, typename SIGNEDTYPE, typename FLOATTYPE> bool ImGui::Dr
     if (is_power)
     {
         // Offset + round to user desired precision, with a curve on the v_min..v_max range to get more precision on one side of the range
-        FLOATTYPE v_old_norm_curved   = ImPow((FLOATTYPE)(v_cur - v_min) / (FLOATTYPE)(v_max - v_min), (FLOATTYPE) 1.0f / power);
+        FLOATTYPE v_old_norm_curved   = ImPow((FLOATTYPE) (v_cur - v_min) / (FLOATTYPE) (v_max - v_min), (FLOATTYPE) 1.0f / power);
         FLOATTYPE v_new_norm_curved   = v_old_norm_curved + (g.DragCurrentAccum / (v_max - v_min));
         v_cur                         = v_min + (TYPE) ImPow(ImSaturate((float) v_new_norm_curved), power) * (v_max - v_min);
         v_old_ref_for_accum_remainder = v_old_norm_curved;
@@ -1969,7 +1969,7 @@ template <typename TYPE, typename SIGNEDTYPE, typename FLOATTYPE> bool ImGui::Dr
     g.DragCurrentAccumDirty = false;
     if (is_power)
     {
-        FLOATTYPE v_cur_norm_curved = ImPow((FLOATTYPE)(v_cur - v_min) / (FLOATTYPE)(v_max - v_min), (FLOATTYPE) 1.0f / power);
+        FLOATTYPE v_cur_norm_curved = ImPow((FLOATTYPE) (v_cur - v_min) / (FLOATTYPE) (v_max - v_min), (FLOATTYPE) 1.0f / power);
         g.DragCurrentAccum -= (float) (v_cur_norm_curved - v_old_ref_for_accum_remainder);
     }
     else
@@ -2300,7 +2300,7 @@ template <typename TYPE, typename FLOATTYPE> float ImGui::SliderCalcRatioFromVal
     }
 
     // Linear slider
-    return (float) ((FLOATTYPE)(v_clamped - v_min) / (FLOATTYPE)(v_max - v_min));
+    return (float) ((FLOATTYPE) (v_clamped - v_min) / (FLOATTYPE) (v_max - v_min));
 }
 
 // FIXME: Move some of the code into SliderBehavior(). Current responsability is larger than what the equivalent DragBehaviorT<> does, we also do some rendering, etc.
@@ -2432,8 +2432,8 @@ template <typename TYPE, typename SIGNEDTYPE, typename FLOATTYPE> bool ImGui::Sl
                     // For integer values we want the clicking position to match the grab box so we round above
                     // This code is carefully tuned to work with large values (e.g. high ranges of U64) while preserving this property..
                     FLOATTYPE v_new_off_f = (v_max - v_min) * clicked_t;
-                    TYPE v_new_off_floor  = (TYPE)(v_new_off_f);
-                    TYPE v_new_off_round  = (TYPE)(v_new_off_f + (FLOATTYPE) 0.5);
+                    TYPE v_new_off_floor  = (TYPE) (v_new_off_f);
+                    TYPE v_new_off_round  = (TYPE) (v_new_off_f + (FLOATTYPE) 0.5);
                     if (!is_decimal && v_new_off_floor < v_new_off_round)
                         v_new = v_min + v_new_off_round;
                     else
@@ -2820,7 +2820,7 @@ const char *ImParseFormatTrimDecorations(const char *fmt, char *buf, size_t buf_
     const char *fmt_end = ImParseFormatFindEnd(fmt_start);
     if (fmt_end[0] == 0) // If we only have leading decoration, we don't need to copy the data.
         return fmt_start;
-    ImStrncpy(buf, fmt_start, ImMin((size_t)(fmt_end - fmt_start) + 1, buf_size));
+    ImStrncpy(buf, fmt_start, ImMin((size_t) (fmt_end - fmt_start) + 1, buf_size));
     return buf;
 }
 
@@ -3248,7 +3248,7 @@ static bool STB_TEXTEDIT_INSERTCHARS(STB_TEXTEDIT_STRING *obj, int pos, const Im
 
     ImWchar *text = obj->TextW.Data;
     if (pos != text_len)
-        memmove(text + pos + new_text_len, text + pos, (size_t)(text_len - pos) * sizeof(ImWchar));
+        memmove(text + pos + new_text_len, text + pos, (size_t) (text_len - pos) * sizeof(ImWchar));
     memcpy(text + pos, new_text, (size_t) new_text_len * sizeof(ImWchar));
 
     obj->CurLenW += new_text_len;
@@ -3334,7 +3334,7 @@ void ImGuiInputTextCallbackData::InsertChars(int pos, const char *new_text, cons
     }
 
     if (BufTextLen != pos)
-        memmove(Buf + pos + new_text_len, Buf + pos, (size_t)(BufTextLen - pos));
+        memmove(Buf + pos + new_text_len, Buf + pos, (size_t) (BufTextLen - pos));
     memcpy(Buf + pos, new_text, (size_t) new_text_len * sizeof(char));
     Buf[BufTextLen + new_text_len] = '\0';
 

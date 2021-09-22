@@ -78,7 +78,7 @@ public:
     void updateLocation();
 
     bool isHovered();
-    
+
     bool isHoveredText(int text_length);
 
     fonts::font *font{ nullptr };
@@ -126,7 +126,7 @@ public:
     bool hidden{ false };
 
     std::optional<std::string> tooltip{};
-    
+
     std::string label{};
 
     size_t hovered_frame{ 0 };

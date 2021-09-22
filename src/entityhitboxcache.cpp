@@ -152,7 +152,7 @@ matrix3x4_t *EntityHitboxCache::GetBones(int numbones)
         break;
     case 2:
         if (CE_GOOD(LOCAL_E))
-            bones_setup_time = g_GlobalVars->interval_per_tick * CE_INT(LOCAL_E, netvar.nTickBase);
+            bones_setup_time = SERVER_TIME;
         break;
     case 3:
         if (CE_GOOD(parent_ref))

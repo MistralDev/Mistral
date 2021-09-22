@@ -2345,7 +2345,7 @@ XMLError XMLDocument::Parse(const char *p, size_t len)
         SetError(XML_ERROR_EMPTY_DOCUMENT, 0, 0);
         return _errorID;
     }
-    if (len == (size_t)(-1))
+    if (len == (size_t) (-1))
     {
         len = strlen(p);
     }

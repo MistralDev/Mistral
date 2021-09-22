@@ -14,13 +14,7 @@ static settings::Boolean global_enable{ "hack.enable", "true" };
 
 time_t time_injected{ 0 };
 
-int g_AppID = 0;
-
-ConVar *sv_client_min_interp_ratio;
-ConVar *sv_client_max_interp_ratio;
-ConVar *cl_interp_ratio;
-ConVar *cl_interp;
-ConVar *cl_interpolate;
+ConVar *sv_client_min_interp_ratio, *sv_client_max_interp_ratio, *cl_interp_ratio, *cl_interp, *cl_interpolate, *cl_updaterate, *sv_maxupdaterate;
 
 unsigned long tickcount   = 0;
 char *force_name_newlined = new char[32]{ 0 };
@@ -33,6 +27,8 @@ void GlobalSettings::Init()
     {
         sv_client_min_interp_ratio = g_ICvar->FindVar("sv_client_min_interp_ratio");
         sv_client_max_interp_ratio = g_ICvar->FindVar("sv_client_max_interp_ratio");
+        cl_updaterate              = g_ICvar->FindVar("cl_updaterate");
+        sv_maxupdaterate           = g_ICvar->FindVar("sv_maxupdaterate");
         cl_interp_ratio            = g_ICvar->FindVar("cl_interp_ratio");
         cl_interp                  = g_ICvar->FindVar("cl_interp");
         cl_interpolate             = g_ICvar->FindVar("cl_interpolate");

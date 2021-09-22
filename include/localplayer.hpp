@@ -20,7 +20,7 @@ public:
     enum SpectatorState
     {
         NONE,
-        THIRDPERSON,
+        ANY,
         FIRSTPERSON
     };
 

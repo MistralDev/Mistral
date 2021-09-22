@@ -1,9 +1,10 @@
-#!/usr/bin/env bash
+#!/ usr / bin / env bash
 
-set -e
+set - e
 
 #
-# Build cathook
+#Build cathook
 #
 
-./scripts/updater false true true
+              ./
+          scripts / updater false true true

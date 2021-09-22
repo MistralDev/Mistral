@@ -198,7 +198,7 @@ uintptr_t CSignature::GetSignature(const char *chPattern, sharedobj::SharedObjec
     uintptr_t patr = dwFindPattern(((uintptr_t) object.module) + object.textOffset, ((uintptr_t) object.module) + object.textOffset + object.textSize, chPattern);
     if (!patr)
         return NULL;
-    return patr - (uintptr_t)(object.module) + object.moduleMap->l_addr;
+    return patr - (uintptr_t) (object.module) + object.moduleMap->l_addr;
 }
 //===================================================================================
 uintptr_t CSignature::GetClientSignature(const char *chPattern)

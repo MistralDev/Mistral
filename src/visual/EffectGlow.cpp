@@ -93,9 +93,7 @@ ITexture *GetBuffer(int i)
     if (!buffers[i])
     {
         ITexture *fullframe;
-        IF_GAME(IsTF2())
-        fullframe      = g_IMaterialSystem->FindTexture("_rt_FullFrameFB", TEXTURE_GROUP_RENDER_TARGET);
-        else fullframe = g_IMaterialSystemHL->FindTexture("_rt_FullFrameFB", TEXTURE_GROUP_RENDER_TARGET);
+        fullframe = g_IMaterialSystem->FindTexture("_rt_FullFrameFB", TEXTURE_GROUP_RENDER_TARGET);
         // char *newname    = new char[32];
         std::unique_ptr<char[]> newname(new char[32]);
         std::string name = format("_cathook_buff", i);
@@ -106,14 +104,7 @@ ITexture *GetBuffer(int i)
         int renderTargetFlags = CREATERENDERTARGETFLAGS_HDR;
 
         ITexture *texture;
-        IF_GAME(IsTF2())
-        {
-            texture = g_IMaterialSystem->CreateNamedRenderTargetTextureEx(newname.get(), fullframe->GetActualWidth(), fullframe->GetActualHeight(), RT_SIZE_LITERAL, IMAGE_FORMAT_RGBA8888, MATERIAL_RT_DEPTH_SEPARATE, textureFlags, renderTargetFlags);
-        }
-        else
-        {
-            texture = g_IMaterialSystemHL->CreateNamedRenderTargetTextureEx(newname.get(), fullframe->GetActualWidth(), fullframe->GetActualHeight(), RT_SIZE_LITERAL, IMAGE_FORMAT_RGBA8888, MATERIAL_RT_DEPTH_SEPARATE, textureFlags, renderTargetFlags);
-        }
+        texture = g_IMaterialSystem->CreateNamedRenderTargetTextureEx(newname.get(), fullframe->GetActualWidth(), fullframe->GetActualHeight(), RT_SIZE_LITERAL, IMAGE_FORMAT_RGBA8888, MATERIAL_RT_DEPTH_SEPARATE, textureFlags, renderTargetFlags);
         buffers[i].Init(texture);
     }
     return buffers[i];
@@ -232,7 +223,7 @@ rgba_t EffectGlow::GlowColor(IClientEntity *entity)
     ent = ENTITY(entity->entindex());
     if (CE_BAD(ent))
         return colors::white;
-    if (ent == hacks::shared::aimbot::CurrentTarget() && aimbot_color)
+    if (ent == hacks::aimbot::CurrentTarget() && aimbot_color)
         return colors::target;
     if (re::C_BaseCombatWeapon::IsBaseCombatWeapon(entity))
     {
@@ -307,18 +298,16 @@ bool EffectGlow::ShouldRenderGlow(IClientEntity *entity)
         }
         break;
     case ENTITY_GENERIC:
-        const auto &type = ent->m_ItemType();
-        if (type >= ITEM_HEALTH_SMALL && type <= ITEM_HEALTH_LARGE)
+        const model_t *model = RAW_ENT(ent)->GetModel();
+        if (model)
         {
-            return *medkits;
-        }
-        else if (type >= ITEM_AMMO_SMALL && type <= ITEM_AMMO_LARGE)
-        {
-            return *ammobox;
-        }
-        else if (type >= ITEM_POWERUP_FIRST && type <= ITEM_POWERUP_LAST)
-        {
-            return *show_powerups;
+            const auto szName = g_IModelInfo->GetModelName(model);
+            if (Hash::IsHealth(szName))
+                return *medkits;
+            else if (Hash::IsAmmo(szName))
+                return *ammobox;
+            else if (Hash::IsPowerup(szName))
+                return *show_powerups;
         }
         break;
     }

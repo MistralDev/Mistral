@@ -29,7 +29,7 @@ static settings::Rgba colour("nullnexus.user.colour");
 
 static NullNexus nexus;
 
-void printmsg(std::string &usr, std::string &msg, int colour = 0xff9340)
+void printmsg(std::string &usr, std::string &msg, int colour = 0xe1ad01)
 {
 #if !ENFORCE_STREAM_SAFETY && ENABLE_VISUALS
     if (msg.size() > 128 || usr.size() > 32)
@@ -40,7 +40,7 @@ void printmsg(std::string &usr, std::string &msg, int colour = 0xff9340)
     if (g_Settings.bInvalid)
         g_ICvar->ConsoleColorPrintf(MENU_COLOR, "[Nullnexus] %s: %s\n", usr.c_str(), msg.c_str());
     else
-        PrintChat("\x07%06X[\x07%06XNullnexus\x07%06X] \x07%06X%s\x01: %s", 0x5e3252, 0xba3d9a, 0x5e3252, colour, usr.c_str(), msg.c_str());
+        PrintChat("\x07%06X[Nullnexus] \x07%06X%s\x01: %s", 0x1434a4, colour, usr.c_str(), msg.c_str());
 #endif
 }
 void printmsgcopy(std::string usr, std::string msg)
@@ -81,7 +81,7 @@ void authedplayers(std::vector<std::string> steamids)
                                {
                                    // Use actual steamid to set cat status
                                    if (playerlist::ChangeState(pinfo.friendsID, playerlist::k_EState::CAT))
-                                       PrintChat("\x07%06X%s\x01 Marked as CAT (Nullnexus user)", 0xe05938, pinfo.name);
+                                       PrintChat("Detected \x07%06X%s\x01 as a Nullnexus user.", 0xe1ad01, pinfo.name);
                                    return true;
                                }
                                return false;

@@ -1,180 +1,133 @@
 /*
- * itemtypes.h
- *
- *  Created on: Feb 10, 2017
- *      Author: nullifiedcat
+ * itemtypes.hpp
+ * This whole file is suboptimal.
+ * Use this tool with "hash" algorithm selected : https://casualhacks.net/hashtool.html
  */
 
 #pragma once
-
-#include <unordered_map>
 #include <string>
-#include <vector>
 
-const std::string tf2c_weapon_names[] = { "BOTTLE", "GRENADE_NAPALM", "SUPERSHOTGUN_MERCENARY", "ROCKETBETA", "GRENADE_GRENADELAUNCHER", "GRENADELAUNCHER", "GRENADE_PIPEBOMB", "CIGARETTE_CASE", "BRANDINGIRON", "BANHAMMER", "SNIPERRIFLE", "GRENADE_HEAL", "HAMMERFISTS", "GRENADE_NAIL", "DART", "RPG", "UMBRELLA_CIVILIAN", "GRENADE_FRAG", "GRENADE_MIRV", "MEDIGUN", "GRENADE_MIRV_DEMO", "PICKAXE", "SYRINGEGUN", "SCATTERGUN", "STENGUN", "SNUBNOSE", "MINIGUN", "WRENCH", "BAT", "SAPPER", "ROCKET", "HAMMER", "FISHWHACKER", "KRITZKRIEG", "FLAREGUN", "SHOVEL", "PISTOL", "SMG", "LEADPIPE", "FLAREGUN_SHELL", "GRENADE_EMP", "CYCLOPS", "MACHETE", "SHOTGUN", "REVOLVER", "GRENADE_GAS", "GRENADE_BEARTRAP", "FIREAXE", "GRENADE_CONC", "NAILGUN", "BONESAW", "STICKYBOMB_LAUNCHER", "GRENADE_BOMBLET", "TRANQ", "DYNAMITE", "CLUB", "TOMMYGUN", "COFFEPOT", "STICKYBOMB", "ROCKETLAUNCHER", "FLAMETHROWER", "CROWBAR", "BUILDER", "HEAVY_ARTILLERY", "KNIFE", "PDA_ENGINEER", "BOTTLE_BROKEN", "TOOLBOX", "SYRINGE_PROJ", "NAIL", "SYRINGE", "OVERHEALER" };
+typedef unsigned int size_owned;
 
-enum k_EItemType
+// Main hash function
+// And prehashed strings allowing for fast comparison.
+namespace Hash
 {
-    ITEM_NONE = 0,
+//=== Health packs ===
+// Normal
+constexpr size_owned MedKitSmall  = 0x39a595ee;
+constexpr size_owned MedKitMedium = 0x33115aec;
+constexpr size_owned MedKitLarge  = 0x6330b20c;
 
-    ITEM_HEALTH_SMALL,
-    ITEM_HEALTH_MEDIUM,
-    ITEM_HEALTH_LARGE,
-    EDIBLE_MEDIUM,
-    EDIBLE_SMALL,
+// Halloween
+constexpr size_owned MedKitSmallHalloween  = 0xe9bcc846;
+constexpr size_owned MedKitMediumHalloween = 0xacfc7a04;
+constexpr size_owned MedKitLargeHalloween  = 0xe0d93ae4;
 
-    ITEM_AMMO_SMALL,
-    ITEM_AMMO_MEDIUM,
-    ITEM_AMMO_LARGE,
-    ITEM_CRUMPKIN,
+// Holiday
+constexpr size_owned MedKitSmallBday     = 0xc237906f;
+constexpr size_owned MedKitMediumBday    = 0x3e17252d;
+constexpr size_owned MedKitLargeBday     = 0x8730d1cd;
+constexpr size_owned MedKitLargeMushroom = 0xb4cff15c;
 
-    ITEM_POWERUP_STRENGTH,
-    ITEM_POWERUP_RESISTANCE,
-    ITEM_POWERUP_VAMPIRE,
-    ITEM_POWERUP_REFLECT,
-    ITEM_POWERUP_HASTE,
-    ITEM_POWERUP_REGENERATION,
-    ITEM_POWERUP_PRECISION,
-    ITEM_POWERUP_AGILITY,
-    ITEM_POWERUP_KNOCKOUT,
-    ITEM_POWERUP_KING,
-    ITEM_POWERUP_PLAGUE,
-    ITEM_POWERUP_SUPERNOVA,
-    ITEM_POWERUP_CRITS,
+// Medieval
+constexpr size_owned MedKitMediumMedieval = 0x7587b6e1;
 
-    ITEM_POWERUP_FIRST = ITEM_POWERUP_STRENGTH,
-    ITEM_POWERUP_LAST  = ITEM_POWERUP_CRITS,
+// Lunchboxes
+constexpr size_owned MedKitSandwich     = 0xde7af718;
+constexpr size_owned MedKitSandwichXmas = 0x26aa9052;
+constexpr size_owned MedKitSandwichRobo = 0xa754f845;
+constexpr size_owned MedKitBanana       = 0x05146988;
+constexpr size_owned MedKitSteak        = 0xda7d352f;
+constexpr size_owned MedKitFishcake     = 0xab5934e6;
+constexpr size_owned MedKitChoco        = 0xa5caa8e6;
 
-    HALLOWEEN_GHOST,
+//=== Ammo packs ===
+// Normal
+constexpr size_owned AmmoSmall  = 0x11ef1a43;
+constexpr size_owned AmmoMedium = 0x4dd0cc21;
+constexpr size_owned AmmoLarge  = 0xb538c321;
+// Holiday
+constexpr size_owned AmmoMediumBday = 0x28b17300;
+constexpr size_owned AmmoLargeBday  = 0x72abca00;
 
-    BOMB_BALLOONBOMB,
-    BOMB_WOODENBARREL,
-    BOMB_WALKEREXPLODE,
+//=== Halloween ===
+constexpr size_owned Crumpkin = 0xaa60f7cf;
 
-    FLAG_ATOMBOMB,
-    FLAG_SKULLPICKUP,
-    FLAG_GIBBUCKET,
-    FLAG_BOTTLEPICKUP,
-    FLAG_GIFT,
-    FLAG_AUSSIECONTAINER,
-    FLAG_TICKETCASE,
+//=== Powerups ===
+constexpr size_owned PowerupHaste      = 0x113cb550;
+constexpr size_owned PowerupVampire    = 0xb434f08f;
+constexpr size_owned PowerupPrecision  = 0xd6e7e2cd;
+constexpr size_owned PowerupRegen      = 0xf6fbc3a0;
+constexpr size_owned PowerupSupernova  = 0xf8dad5ec;
+constexpr size_owned PowerupStrength   = 0xf89aa23e;
+constexpr size_owned PowerupKnockout   = 0xa4ea7097;
+constexpr size_owned PowerupResistance = 0x11193801;
+constexpr size_owned PowerupCrits      = 0xe1cf4257;
+constexpr size_owned PowerupAgility    = 0x378f855c;
+constexpr size_owned PowerupKing       = 0x6d6c8370;
+constexpr size_owned PowerupPlague     = 0xffd5ced1;
+constexpr size_owned PowerupReflect    = 0xf88a87f4;
 
-    CART_BOMBCART,
-    CART_BOMBCART_RED,
+//=== Spellbooks ===
+constexpr size_owned Spell      = 0x7dfe1327;
+constexpr size_owned Spell1     = 0x9de70281;
+constexpr size_owned Spell2     = 0x8fd658ed;
+constexpr size_owned RareSpell  = 0x6c0f00e3;
+constexpr size_owned RareSpell1 = 0x28177e05;
+constexpr size_owned RareSpell2 = 0x2a1a7798;
 
-    ITEM_TF2C_PILL,
-    ITEM_TF2C_CRITS,
+//=== Environmental Hazards ===
+constexpr size_owned BallonBomb    = 0xda3eb058;
+constexpr size_owned WoodenBarrel  = 0x23c01644;
+constexpr size_owned WalkerExplode = 0xd530882f;
 
-    ITEM_TF2C_W_BOTTLE,
-    ITEM_TF2C_W_GRENADE_NAPALM,
-    ITEM_TF2C_W_SUPERSHOTGUN_MERCENARY,
-    ITEM_TF2C_W_ROCKETBETA,
-    ITEM_TF2C_W_GRENADE_GRENADELAUNCHER,
-    ITEM_TF2C_W_GRENADELAUNCHER,
-    ITEM_TF2C_W_GRENADE_PIPEBOMB,
-    ITEM_TF2C_W_CIGARETTE_CASE,
-    ITEM_TF2C_W_BRANDINGIRON,
-    ITEM_TF2C_W_BANHAMMER,
-    ITEM_TF2C_W_SNIPERRIFLE,
-    ITEM_TF2C_W_GRENADE_HEAL,
-    ITEM_TF2C_W_HAMMERFISTS,
-    ITEM_TF2C_W_GRENADE_NAIL,
-    ITEM_TF2C_W_DART,
-    ITEM_TF2C_W_RPG,
-    ITEM_TF2C_W_UMBRELLA_CIVILIAN,
-    ITEM_TF2C_W_GRENADE_FRAG,
-    ITEM_TF2C_W_GRENADE_MIRV,
-    ITEM_TF2C_W_MEDIGUN,
-    ITEM_TF2C_W_GRENADE_MIRV_DEMO,
-    ITEM_TF2C_W_PICKAXE,
-    ITEM_TF2C_W_SYRINGEGUN,
-    ITEM_TF2C_W_SCATTERGUN,
-    ITEM_TF2C_W_STENGUN,
-    ITEM_TF2C_W_SNUBNOSE,
-    ITEM_TF2C_W_MINIGUN,
-    ITEM_TF2C_W_WRENCH,
-    ITEM_TF2C_W_BAT,
-    ITEM_TF2C_W_SAPPER,
-    ITEM_TF2C_W_ROCKET,
-    ITEM_TF2C_W_HAMMER,
-    ITEM_TF2C_W_FISHWHACKER,
-    ITEM_TF2C_W_KRITZKRIEG,
-    ITEM_TF2C_W_FLAREGUN,
-    ITEM_TF2C_W_SHOVEL,
-    ITEM_TF2C_W_PISTOL,
-    ITEM_TF2C_W_SMG,
-    ITEM_TF2C_W_LEADPIPE,
-    ITEM_TF2C_W_FLAREGUN_SHELL,
-    ITEM_TF2C_W_GRENADE_EMP,
-    ITEM_TF2C_W_CYCLOPS,
-    ITEM_TF2C_W_MACHETE,
-    ITEM_TF2C_W_SHOTGUN,
-    ITEM_TF2C_W_REVOLVER,
-    ITEM_TF2C_W_GRENADE_GAS,
-    ITEM_TF2C_W_GRENADE_BEARTRAP,
-    ITEM_TF2C_W_FIREAXE,
-    ITEM_TF2C_W_GRENADE_CONC,
-    ITEM_TF2C_W_NAILGUN,
-    ITEM_TF2C_W_BONESAW,
-    ITEM_TF2C_W_STICKYBOMB_LAUNCHER,
-    ITEM_TF2C_W_GRENADE_BOMBLET,
-    ITEM_TF2C_W_TRANQ,
-    ITEM_TF2C_W_DYNAMITE,
-    ITEM_TF2C_W_CLUB,
-    ITEM_TF2C_W_TOMMYGUN,
-    ITEM_TF2C_W_COFFEPOT,
-    ITEM_TF2C_W_STICKYBOMB,
-    ITEM_TF2C_W_ROCKETLAUNCHER,
-    ITEM_TF2C_W_FLAMETHROWER,
-    ITEM_TF2C_W_CROWBAR,
-    ITEM_TF2C_W_BUILDER,
-    ITEM_TF2C_W_HEAVY_ARTILLERY,
-    ITEM_TF2C_W_KNIFE,
-    ITEM_TF2C_W_PDA_ENGINEER,
-    ITEM_TF2C_W_BOTTLE_BROKEN,
-    ITEM_TF2C_W_TOOLBOX,
-    ITEM_TF2C_W_SYRINGE_PROJ,
-    ITEM_TF2C_W_NAIL,
-    ITEM_TF2C_W_SYRINGE,
-    ITEM_TF2C_W_OVERHEALER,
+//=== Flags ===
+constexpr size_owned AtomBomb        = 0x4df65bd9;
+constexpr size_owned SkullPickup     = 0x5eea40f5;
+constexpr size_owned SkullPickup1    = 0x2669d100;
+constexpr size_owned GibBucket       = 0x4fdc540a;
+constexpr size_owned BottlePickup    = 0xacc31aee;
+constexpr size_owned Gift            = 0x8d0ca1c0;
+constexpr size_owned AussieContainer = 0xec29d3e0;
+constexpr size_owned TicketCase      = 0xab52d991;
+constexpr size_owned Briefcase       = 0xd81f4570;
+constexpr size_owned Briefcase2      = 0x77382e50;
+constexpr size_owned Flag            = 0x4e1f4b32;
+constexpr size_owned Flag2           = 0xaff31b06;
 
-    ITEM_TF2C_W_FIRST = ITEM_TF2C_W_BOTTLE,
-    ITEM_TF2C_W_LAST  = ITEM_TF2C_W_OVERHEALER,
+//=== Bomb Carts ===
+constexpr size_owned BombCart     = 0xc8eec394;
+constexpr size_owned BombCart1    = 0x10badb35;
+constexpr size_owned BombCart2    = 0x83739708;
+constexpr size_owned BombCart3    = 0x1b2875eb;
+constexpr size_owned BombCart4    = 0x12550947;
+constexpr size_owned BombCart5    = 0x0ff76f5e;
+constexpr size_owned BombCartRed  = 0x5bcb6c87;
+constexpr size_owned BombCartRed1 = 0xdc059338;
 
-    ITEM_HL_BATTERY,
-
-    ITEM_SPELL,
-    ITEM_SPELL_RARE,
-
-    ITEM_COUNT
-};
-
-class CachedEntity;
-typedef bool (*ItemCheckerFn)(CachedEntity *);
-typedef k_EItemType (*ItemSpecialMapperFn)(CachedEntity *);
-
-class ItemModelMapper
-{
-public:
-    void RegisterItem(std::string modelpath, k_EItemType type);
-    k_EItemType GetItemType(CachedEntity *entity);
-
-    std::unordered_map<std::string, k_EItemType> models;
-    std::unordered_map<uintptr_t, k_EItemType> map;
-};
-
-class ItemManager
-{
-public:
-    ItemManager();
-    void RegisterModelMapping(std::string path, k_EItemType type);
-    void RegisterSpecialMapping(ItemCheckerFn fn, k_EItemType type);
-    k_EItemType GetItemType(CachedEntity *ent);
-
-    std::unordered_map<ItemCheckerFn, k_EItemType> special_map;
-    std::vector<ItemSpecialMapperFn> specials;
-    ItemModelMapper mapper_special;
-    ItemModelMapper mapper;
-};
-
-extern ItemManager g_ItemManager;
+bool IsAmmo(const char *szName);
+bool IsCrumpkin(const char *szName);
+bool IsPowerup(const char *szName);
+bool IsPowerupHaste(const char *szName);
+bool IsPowerupVampire(const char *szName);
+bool IsPowerupPrecision(const char *szName);
+bool IsPowerupRegen(const char *szName);
+bool IsPowerupSupernova(const char *szName);
+bool IsPowerupStrength(const char *szName);
+bool IsPowerupKnockout(const char *szName);
+bool IsPowerupResistance(const char *szName);
+bool IsPowerupCrits(const char *szName);
+bool IsPowerupAgility(const char *szName);
+bool IsPowerupKing(const char *szName);
+bool IsPowerupPlague(const char *szName);
+bool IsPowerupReflect(const char *szName);
+bool IsHealth(const char *szName);
+bool IsSpellbook(const char *szName);
+bool IsSpellbookRare(const char *szName);
+bool IsHazard(const char *szName);
+bool IsFlag(const char *szName);
+bool IsBombCart(const char *szName);
+bool IsBombCartRed(const char *szName);
+int String(const char *szOrg);
+} // namespace Hash

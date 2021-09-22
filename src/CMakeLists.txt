@@ -13,7 +13,6 @@ set(files "${CMAKE_CURRENT_LIST_DIR}/angles.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/helpers.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/hitrate.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/hooks.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/hoovy.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/ipc.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/itemtypes.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/localplayer.cpp"
@@ -47,6 +46,6 @@ add_subdirectory(reclasses)
 add_subdirectory(sdk)
 add_subdirectory(settings)
 
-if(EnableVisuals)
+if (EnableVisuals)
     add_subdirectory(visual)
-endif()
+endif ()

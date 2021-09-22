@@ -9,7 +9,7 @@
 #include "common.hpp"
 #include "hooks.hpp"
 
-namespace hacks::tf2::killstreak
+namespace hacks::killstreak
 {
 static settings::Boolean enable{ "killstreak.enable", "false" };
 
@@ -136,4 +136,4 @@ void init()
 }
 
 static InitRoutine EC([]() { EC::Register(EC::Paint, apply_killstreaks, "killstreak", EC::average); });
-} // namespace hacks::tf2::killstreak
+} // namespace hacks::killstreak

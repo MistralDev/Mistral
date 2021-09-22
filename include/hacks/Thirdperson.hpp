@@ -4,7 +4,7 @@
 
 #pragma once
 
-namespace hacks::tf::thirdperson
+namespace hacks::thirdperson
 {
 
 void frameStageNotify();

@@ -89,93 +89,105 @@ void zerokernel::special::PlayerListController::removeAll()
 
 void zerokernel::special::PlayerListController::removePlayer(int id)
 {
-    table.iterateObjects([id](BaseMenuObject *a) {
-        auto row = dynamic_cast<TRow *>(a);
-        // Shouldn't happen
-        if (row == nullptr)
-            return;
-        if ((int) row->kv["player_id"] == id)
-            row->markForDelete();
-    });
+    table.iterateObjects(
+        [id](BaseMenuObject *a)
+        {
+            auto row = dynamic_cast<TRow *>(a);
+            // Shouldn't happen
+            if (row == nullptr)
+                return;
+            if ((int) row->kv["player_id"] == id)
+                row->markForDelete();
+        });
 }
 
 void zerokernel::special::PlayerListController::updatePlayerName(int id, const char *name)
 {
-    table.iterateObjects([id, name](BaseMenuObject *a) {
-        auto row = dynamic_cast<TRow *>(a);
-        // Shouldn't happen
-        if (row == nullptr)
-            return;
-        if ((int) row->kv["player_id"] == id)
+    table.iterateObjects(
+        [id, name](BaseMenuObject *a)
         {
-            auto el = dynamic_cast<Text *>(row->getElementById("username"));
-            if (el)
-                el->set(name);
-        }
-    });
+            auto row = dynamic_cast<TRow *>(a);
+            // Shouldn't happen
+            if (row == nullptr)
+                return;
+            if ((int) row->kv["player_id"] == id)
+            {
+                auto el = dynamic_cast<Text *>(row->getElementById("username"));
+                if (el)
+                    el->set(name);
+            }
+        });
 }
 
 void zerokernel::special::PlayerListController::updatePlayerLifeState(int id, bool dead)
 {
-    table.iterateObjects([this, id, dead](BaseMenuObject *a) {
-        auto row = dynamic_cast<TRow *>(a);
-        // Shouldn't happen
-        if (row == nullptr)
-            return;
-        if ((int) (row->kv["player_id"]) == id)
+    table.iterateObjects(
+        [this, id, dead](BaseMenuObject *a)
         {
-            row->kv["player_dead"] = int(dead);
-            updateRow(row);
-        }
-    });
+            auto row = dynamic_cast<TRow *>(a);
+            // Shouldn't happen
+            if (row == nullptr)
+                return;
+            if ((int) (row->kv["player_id"]) == id)
+            {
+                row->kv["player_dead"] = int(dead);
+                updateRow(row);
+            }
+        });
 }
 
 void zerokernel::special::PlayerListController::updatePlayerTeam(int id, int team)
 {
-    table.iterateObjects([this, id, team](BaseMenuObject *a) {
-        auto row = dynamic_cast<TRow *>(a);
-        // Shouldn't happen
-        if (row == nullptr)
-            return;
-        if ((int) row->kv["player_id"] == id)
+    table.iterateObjects(
+        [this, id, team](BaseMenuObject *a)
         {
-            row->kv["player_team"] = team;
-            updateRow(row);
-        }
-    });
+            auto row = dynamic_cast<TRow *>(a);
+            // Shouldn't happen
+            if (row == nullptr)
+                return;
+            if ((int) row->kv["player_id"] == id)
+            {
+                row->kv["player_team"] = team;
+                updateRow(row);
+            }
+        });
 }
 
 void zerokernel::special::PlayerListController::updatePlayerClass(int id, int classId)
 {
-    table.iterateObjects([this, id, classId](BaseMenuObject *a) {
-        auto row = dynamic_cast<TRow *>(a);
-        // Shouldn't happen
-        if (row == nullptr)
-            return;
-        if ((int) row->kv["player_id"] == id)
+    table.iterateObjects(
+        [this, id, classId](BaseMenuObject *a)
         {
-            row->kv["player_class"] = classId;
-            updateRow(row);
-        }
-    });
+            auto row = dynamic_cast<TRow *>(a);
+            // Shouldn't happen
+            if (row == nullptr)
+                return;
+            if ((int) row->kv["player_id"] == id)
+            {
+                row->kv["player_class"] = classId;
+                updateRow(row);
+            }
+        });
 }
 
 void zerokernel::special::PlayerListController::updatePlayerState(int id, std::string state_string)
 {
-    table.iterateObjects([this, id, state_string](BaseMenuObject *a) {
-        auto row = dynamic_cast<TRow *>(a);
-        // Shouldn't happen
-        if (row == nullptr)
-            return;
-        if ((int) row->kv["player_id"] == id)
+    table.iterateObjects(
+        [this, id, state_string](BaseMenuObject *a)
         {
-            auto state = dynamic_cast<Text *>(row->getElementById("state"));
-            if (state)
-                state->kv["state"] = state_string;
-            updateRow(row);
-            return;
-        }
-    });
+            auto row = dynamic_cast<TRow *>(a);
+            // Shouldn't happen
+            if (row == nullptr)
+                return;
+            if ((int) row->kv["player_id"] == id)
+            {
+                auto state = dynamic_cast<Text *>(row->getElementById("state"));
+                if (state)
+                    state->kv["state"] = state_string;
+                updateRow(row);
+                return;
+            }
+        });
 }
 
 void zerokernel::special::PlayerListController::addPlayer(int id, zerokernel::special::PlayerListData data)
@@ -231,20 +243,24 @@ void zerokernel::special::PlayerListController::addPlayer(int id, zerokernel::sp
 
 void zerokernel::special::PlayerListController::changeRowColor(zerokernel::TRow *row, const rgba_t &color)
 {
-    row->iterateObjects([&color](BaseMenuObject *object) -> void {
-        auto tdata = dynamic_cast<TData *>(object);
-        if (tdata)
+    row->iterateObjects(
+        [&color](BaseMenuObject *object) -> void
         {
-            tdata->iterateObjects([&color](BaseMenuObject *object) -> void {
-                auto text = dynamic_cast<Text *>(object);
-                if (text && (int) text->kv["team_color"])
-                {
-                    printf("Setting color to %f %f %f %f\n", color.r, color.g, color.b, color.a);
-                    text->setColorText(&color);
-                }
-            });
-        }
-    });
+            auto tdata = dynamic_cast<TData *>(object);
+            if (tdata)
+            {
+                tdata->iterateObjects(
+                    [&color](BaseMenuObject *object) -> void
+                    {
+                        auto text = dynamic_cast<Text *>(object);
+                        if (text && (int) text->kv["team_color"])
+                        {
+                            printf("Setting color to %f %f %f %f\n", color.r, color.g, color.b, color.a);
+                            text->setColorText(&color);
+                        }
+                    });
+            }
+        });
 }
 
 void zerokernel::special::PlayerListController::updateRow(zerokernel::TRow *row)

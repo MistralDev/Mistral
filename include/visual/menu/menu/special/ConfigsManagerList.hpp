@@ -30,7 +30,6 @@ public:
 
     void addVariable(std::string name);
 
-
     //
 
     TreeNode root{};

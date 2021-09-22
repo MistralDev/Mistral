@@ -79,7 +79,7 @@ if [ $SYMBOLS == false ]; then
     echo "No debug symbols detected!"
     proccount=$(grep -c '^processor' /proc/cpuinfo)
     pushd build
-    cmake -DInternal_Symbolized=true .. && cmake --build . --target cathook -- -j$proccount
+    cmake -DInternal_Symbolized=true .. && cmake --build . --target cathook -- -j $(nproc --all)
     popd
 fi
 

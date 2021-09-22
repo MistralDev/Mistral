@@ -4,7 +4,6 @@
 
 #include "common.hpp"
 #include <unordered_map>
-#include <hoovy.hpp>
 #include <playerlist.hpp>
 #include "PlayerTools.hpp"
 #include "entitycache.hpp"
@@ -18,7 +17,6 @@ static settings::Int betrayal_limit{ "player-tools.betrayal-limit", "2" };
 static settings::Boolean betrayal_sync{ "player-tools.betrayal-ipc-sync", "true" };
 
 static settings::Boolean taunting{ "player-tools.ignore.taunting", "true" };
-static settings::Boolean hoovy{ "player-tools.ignore.hoovy", "true" };
 static settings::Boolean ignoreCathook{ "player-tools.ignore.cathook", "true" };
 
 static std::unordered_map<unsigned, unsigned> betrayal_list{};
@@ -43,8 +41,6 @@ bool shouldTarget(CachedEntity *entity)
 {
     if (entity->m_Type() == ENTITY_PLAYER)
     {
-        if (hoovy && IsHoovy(entity))
-            return false;
         if (taunting && HasCondition<TFCond_Taunting>(entity) && CE_INT(entity, netvar.m_iTauntIndex) == 3)
             return false;
         if (HasCondition<TFCond_HalloweenGhostMode>(entity))

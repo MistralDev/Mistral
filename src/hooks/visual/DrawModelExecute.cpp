@@ -134,6 +134,9 @@ static settings::Boolean local_weapon_chams_overlay_chams{ "chams.overlay.local-
 static settings::Rgba local_weapon_overlaychams_color{ "chams.local-weapon.overlaycolor", "000000ff" };
 static settings::Rgba local_weapon_basechams_color{ "chams.local-weapon.basecolor", "000000ff" };
 
+/* Chams shouldn't be drawn on these */
+std::vector<std::string> dontdraw_strings = { "w_syringe", "nail", "shell", "parachute", "buffbanner", "shogun_warbanner", "targe", "shield", "repair_claw", "yeti", "arrow" };
+
 // Can we render arms/weapon chams right now? We need to draw on some player atleast once before it works without flat
 // chams.
 static bool should_draw_fp_chams = false;
@@ -209,40 +212,43 @@ public:
 
 std::vector<DrawEntry> attachment_draw_list;
 
-static InitRoutine init_dme([]() {
-    EC::Register(
-        EC::LevelShutdown,
-        []() {
-            if (init_mat)
+static InitRoutine init_dme(
+    []()
+    {
+        EC::Register(
+            EC::LevelShutdown,
+            []()
             {
-                mats.Shutdown();
-                init_mat = false;
-            }
-            attachment_draw_list.clear();
-        },
-        "dme_lvl_shutdown");
+                if (init_mat)
+                {
+                    mats.Shutdown();
+                    init_mat = false;
+                }
+                attachment_draw_list.clear();
+            },
+            "dme_lvl_shutdown");
 
-    halfambert.installChangeCallback(rvarCallback<bool>);
-    additive.installChangeCallback(rvarCallback<int>);
-    pearlescent.installChangeCallback(rvarCallback<int>);
+        halfambert.installChangeCallback(rvarCallback<bool>);
+        additive.installChangeCallback(rvarCallback<int>);
+        pearlescent.installChangeCallback(rvarCallback<int>);
 
-    phong_enable.installChangeCallback(rvarCallback<bool>);
-    phong_boost.installChangeCallback(rvarCallback<int>);
-    phong_exponent.installChangeCallback(rvarCallback<float>);
-    phong_fresnelrange.installChangeCallback(rvarCallback<bool>);
-    phong_fresnelrange_1.installChangeCallback(rvarCallback<float>);
-    phong_fresnelrange_2.installChangeCallback(rvarCallback<float>);
-    phong_fresnelrange_3.installChangeCallback(rvarCallback<float>);
+        phong_enable.installChangeCallback(rvarCallback<bool>);
+        phong_boost.installChangeCallback(rvarCallback<int>);
+        phong_exponent.installChangeCallback(rvarCallback<float>);
+        phong_fresnelrange.installChangeCallback(rvarCallback<bool>);
+        phong_fresnelrange_1.installChangeCallback(rvarCallback<float>);
+        phong_fresnelrange_2.installChangeCallback(rvarCallback<float>);
+        phong_fresnelrange_3.installChangeCallback(rvarCallback<float>);
 
-    rimlighting.installChangeCallback(rvarCallback<bool>);
-    rimlighting_boost.installChangeCallback(rvarCallback<float>);
-    rimlighting_exponent.installChangeCallback(rvarCallback<float>);
+        rimlighting.installChangeCallback(rvarCallback<bool>);
+        rimlighting_boost.installChangeCallback(rvarCallback<float>);
+        rimlighting_exponent.installChangeCallback(rvarCallback<float>);
 
-    envmap.installChangeCallback(rvarCallback<bool>);
-    envmapfresnel.installChangeCallback(rvarCallback<float>);
-    envmap_tint.installChangeCallback(rvarCallback<bool>);
-    envmap_matt.installChangeCallback(rvarCallback<bool>);
-});
+        envmap.installChangeCallback(rvarCallback<bool>);
+        envmapfresnel.installChangeCallback(rvarCallback<float>);
+        envmap_tint.installChangeCallback(rvarCallback<bool>);
+        envmap_matt.installChangeCallback(rvarCallback<bool>);
+    });
 
 // Purpose => Returns true if we should render provided internal entity
 bool ShouldRenderChams(IClientEntity *entity)
@@ -309,21 +315,15 @@ bool ShouldRenderChams(IClientEntity *entity)
             }
         break;
     case ENTITY_GENERIC:
-        switch (ent->m_ItemType())
+        const model_t *model = RAW_ENT(ent)->GetModel();
+        if (model)
         {
-        case ITEM_HEALTH_LARGE:
-        case ITEM_HEALTH_MEDIUM:
-        case ITEM_HEALTH_SMALL:
-            return *medkits;
-        case ITEM_AMMO_LARGE:
-        case ITEM_AMMO_MEDIUM:
-        case ITEM_AMMO_SMALL:
-            return *ammobox;
-        default:
-            break;
+            const auto szName = g_IModelInfo->GetModelName(model);
+            if (Hash::IsHealth(szName))
+                return *medkits;
+            else if (Hash::IsAmmo(szName))
+                return *ammobox;
         }
-        break;
-    default:
         break;
     }
     return false;
@@ -336,7 +336,7 @@ static ChamColors GetChamColors(IClientEntity *entity, bool ignorez)
 
     if (CE_BAD(ent))
         return ChamColors(colors::white);
-    if (ent == hacks::shared::aimbot::CurrentTarget() && aimbot_color)
+    if (ent == hacks::aimbot::CurrentTarget() && aimbot_color)
         return ChamColors(colors::target);
     if (re::C_BaseCombatWeapon::IsBaseCombatWeapon(entity))
     {
@@ -532,7 +532,7 @@ void ApplyChams(ChamColors colors, bool recurse, bool render_original, bool over
 
 DEFINE_HOOKED_METHOD(DrawModelExecute, void, IVModelRender *this_, const DrawModelState_t &state, const ModelRenderInfo_t &info, matrix3x4_t *bone)
 {
-    if (!isHackActive() || effect_glow::g_EffectGlow.drawing || chams_attachment_drawing || (*clean_screenshots && g_IEngine->IsTakingScreenshot()) || CE_BAD(LOCAL_E) || (!enable && !no_hats && !no_arms && !blend_zoom && !arms_chams && !local_weapon_chams /*&& !(hacks::tf2::backtrack::chams && hacks::tf2::backtrack::isBacktrackEnabled)*/))
+    if (!isHackActive() || effect_glow::g_EffectGlow.drawing || chams_attachment_drawing || (*clean_screenshots && g_IEngine->IsTakingScreenshot()) || CE_BAD(LOCAL_E) || (!enable && !no_hats && !no_arms && !blend_zoom && !arms_chams && !local_weapon_chams /*&& !(hacks::backtrack::chams && hacks::backtrack::isBacktrackEnabled)*/))
         return original::DrawModelExecute(this_, state, info, bone);
 
     PROF_SECTION(DrawModelExecute);
@@ -548,32 +548,16 @@ DEFINE_HOOKED_METHOD(DrawModelExecute, void, IVModelRender *this_, const DrawMod
         KeyValues *kv_vertex_lit = nullptr;
         {
             auto *kv = new KeyValues("VertexLitGeneric");
-            kv->SetString("$basetexture", "white");
-            kv->SetString("$bumpmap", "water/tfwater001_normal");
-            kv->SetString("$lightwarptexture", "models/player/pyro/pyro_lightwarp");
-            kv->SetBool("$halfambert", *halfambert);
-            kv->SetBool("$phong", *phong_enable);
-            kv->SetFloat("$phongexponent", *phong_exponent);
-            kv->SetFloat("$phongboost", *phong_boost);
-            if (phong_fresnelrange)
-            {
-                char buffer[100];
-                snprintf(buffer, 100, "[%.2f %.2f %.2f]", *phong_fresnelrange_1, *phong_fresnelrange_2, *phong_fresnelrange_3);
-                kv->SetString("$phongfresnelranges", buffer);
-            }
-            if (envmap)
-            {
-                kv->SetString("$envmap", cubemap_str);
-                kv->SetFloat("$envmapfresnel", *envmapfresnel);
-                kv->SetString("$envmapfresnelminmaxexp", "[0.01 1 2]");
-                kv->SetInt("$normalmapalphaenvmapmask", 1);
-                kv->SetInt("$selfillum", 1);
-                if (envmap_tint)
-                    kv->SetString("$envmaptint", "[1 1 1]");
-            }
-            kv->SetBool("$rimlight", *rimlighting);
-            kv->SetFloat("$rimlightexponent", *rimlighting_exponent);
-            kv->SetFloat("$rimlightboost", *phong_boost);
+            kv->SetString("$basetexture", "brick/brickwall031b");
+            kv->SetString("$additive", "1");
+            kv->SetString("$phong", "1");
+            kv->SetString("$phongfresnelrangse", "[0 0.5 10]");
+            kv->SetString("$envmap", "cubemaps/cubemap_sheen001");
+            kv->SetString("$envmapfresnel", "1");
+            kv->SetString("$selfillum", "1");
+            kv->SetString("$rimlight", "1");
+            kv->SetString("$rimlightboost", "100");
+            kv->SetString("$envmapfresnelminmaxexp", "[0 1 2]");
             kv_vertex_lit = kv->MakeCopy();
             mats.mat_dme_lit.Init("__cathook_dme_chams_lit", kv);
         }
@@ -641,8 +625,17 @@ DEFINE_HOOKED_METHOD(DrawModelExecute, void, IVModelRender *this_, const DrawMod
         const char *name = g_IModelInfo->GetModelName(info.pModel);
         if (name)
         {
+            bool good         = true;
             std::string sname = name;
-            if (should_draw_fp_chams && should_draw_fp_chams_timer.check(500) && ((sname.find("arms") != std::string::npos && sname.find("yeti") == std::string::npos) || sname.find("c_engineer_gunslinger") != std::string::npos))
+            for (auto &entry : dontdraw_strings)
+            {
+                if (sname.find(entry) != std::string::npos)
+                    good = false;
+            }
+            if (!good)
+                return;
+
+            if (should_draw_fp_chams && should_draw_fp_chams_timer.check(500) && (sname.find("arms") != std::string::npos || sname.find("c_engineer_gunslinger") != std::string::npos))
             {
                 if (no_arms)
                     return;
@@ -695,7 +688,7 @@ DEFINE_HOOKED_METHOD(DrawModelExecute, void, IVModelRender *this_, const DrawMod
             if (!do_draw)
                 return;
 
-            if (should_draw_fp_chams && should_draw_fp_chams_timer.check(500) && local_weapon_chams && info.entity_index == -1 && sname.find("arms") == std::string::npos && (sname.find("models/weapons") != std::string::npos || sname.find("models/workshop/weapons") != std::string::npos || sname.find("models/workshop_partner/weapons") != std::string::npos))
+            if (should_draw_fp_chams && should_draw_fp_chams_timer.check(500) && local_weapon_chams && info.entity_index == -1 && sname.find("arms") == std::string::npos && sname.find("weapons") != std::string::npos)
             {
                 // Backup original colors
                 rgba_t original_color;
@@ -770,7 +763,7 @@ DEFINE_HOOKED_METHOD(DrawModelExecute, void, IVModelRender *this_, const DrawMod
                             }
                         }
                         // Backtrack chams
-                        namespace bt = hacks::tf2::backtrack;
+                        namespace bt = hacks::backtrack;
                         if (bt::chams && bt::backtrackEnabled())
                         {
                             // TODO: Allow for a fade between the entity's color and a specified color, it would look cool but i'm lazy
@@ -820,8 +813,6 @@ DEFINE_HOOKED_METHOD(DrawModelExecute, void, IVModelRender *this_, const DrawMod
             if (ent->entindex() == spectator_target)
                 return;
     }
-    // Don't do it when we are trying to enforce backtrack chams
-    // if (!hacks::tf2::backtrack::isDrawing)
     return original::DrawModelExecute(this_, state, info, bone);
 } // namespace hooked_methods
 } // namespace hooked_methods

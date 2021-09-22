@@ -22,7 +22,7 @@ constexpr int CAT_IDENTIFY   = 0xCA7;
 constexpr int CAT_REPLY      = 0xCA8;
 constexpr float AUTH_MESSAGE = 1234567.0f;
 
-namespace hacks::shared::catbot
+namespace hacks::catbot
 {
 void SendNetMsg(INetMessage &msg);
 }
@@ -40,66 +40,16 @@ void sendAchievementKv(int value)
     g_IEngine->ServerCmdKeyValues(kv);
 }
 
-// Goodbye old Friend.
-/*void sendDrawlineKv(float x_value, float y_value)
-{
-    KeyValues *kv = new KeyValues("cl_drawline");
-    kv->SetInt("panel", 2);
-    kv->SetInt("line", 0);
-    kv->SetFloat("x", x_value);
-    kv->SetFloat("y", y_value);
-    g_IEngine->ServerCmdKeyValues(kv);
-}*/
-
 void sendIdentifyMessage(bool reply)
 {
     reply ? sendAchievementKv(CAT_REPLY) : sendAchievementKv(CAT_IDENTIFY);
-    /*reply ? sendDrawlineKv(CAT_REPLY, AUTH_MESSAGE) : sendDrawlineKv(CAT_IDENTIFY, AUTH_MESSAGE);*/
 }
-
-static CatCommand debug_drawpanel("debug_drawline", "debug",
-                                  []()
-                                  {
-                                      KeyValues *kv = new KeyValues("cl_drawline");
-                                      // Has to be this to get broadcasted
-                                      kv->SetInt("panel", 2);
-                                      // "New" line
-                                      kv->SetInt("line", 0);
-
-                                      kv->SetFloat("x", CAT_IDENTIFY);
-                                      kv->SetFloat("y", AUTH_MESSAGE);
-                                      g_IEngine->ServerCmdKeyValues(kv);
-                                  });
 
 #if ENABLE_TEXTMODE
 settings::Boolean identify{ "chat.identify", "true" };
 #else
 settings::Boolean identify{ "chat.identify", "false" };
 #endif
-
-/*void ProcessSendline(IGameEvent *kv)
-{
-    int player_idx = kv->GetInt("player", 0xDEAD);
-
-    auto id            = kv->GetFloat("x");
-    float message_type = kv->GetFloat("y");
-    auto panel_type    = kv->GetInt("panel");
-    auto line_type     = kv->GetInt("line");
-
-    // Verify all the data matches
-    if (player_idx != 0xDEAD && panel_type == 2 && line_type == 0 && message_type == AUTH_MESSAGE && (id == CAT_IDENTIFY || id == CAT_REPLY))
-    {
-        player_info_s info;
-        if (!GetPlayerInfo(player_idx, &info))
-            return;
-        // CA7 = Reply and change state
-        // CA8 = Change state
-        if (id == CAT_IDENTIFY && *answerIdentify && player_idx != g_pLocalPlayer->entity_idx && playerlist::AccessData(info.friendsID).state != playerlist::k_EState::RAGE)
-            send_drawline_reply = true;
-        if (playerlist::ChangeState(info.friendsID, playerlist::k_EState::CAT))
-            PrintChat("\x07%06X%s\x01 Marked as CAT (Cathook user)", 0xe05938, info.name);
-    }
-}*/
 
 std::vector<KeyValues *> Iterate(KeyValues *event, int depth)
 {
@@ -203,7 +153,7 @@ void ProcessAchievement(IGameEvent *ach)
             send_achievement_reply = true;
         }
         if (playerlist::ChangeState(info.friendsID, playerlist::k_EState::CAT))
-            PrintChat("\x07%06X%s\x01 Marked as CAT (Cathook user)", 0xe05938, info.name);
+            PrintChat("Detected \x07%06X%s\x01 as a Cathook user.", 0xe1ad01, info.name);
     }
 }
 
@@ -251,13 +201,13 @@ DEFINE_HOOKED_METHOD(SendNetMsg, bool, INetChannel *this_, INetMessage &msg, boo
     NET_StringCmd stringcmd;
 
     // Do we have to force reliable state?
-    if (hacks::tf2::nospread::SendNetMessage(&msg))
+    if (hacks::nospread::SendNetMessage(&msg))
         force_reliable = true;
     // Don't use warp with nospread
     else
-        hacks::tf2::warp::SendNetMessage(msg);
+        hacks::warp::SendNetMessage(msg);
 
-    hacks::tf2::antianticheat::SendNetMsg(msg);
+    hacks::antianticheat::SendNetMsg(msg);
 
     // net_StringCmd
     if (msg.GetType() == 4 && (newlines_msg || crypt_chat))
@@ -307,32 +257,10 @@ DEFINE_HOOKED_METHOD(SendNetMsg, bool, INetChannel *this_, INetMessage &msg, boo
     {
         lastcmd = g_GlobalVars->absoluteframetime;
     }
-    // SoonTM
-    /*
-    if (msg.GetType() == 16)
-    {
-        std::string message(msg.GetName());
-        if (message.find("MVM_Upgrade"))
-        {
-            CLC_CmdKeyValues keyval = *(CLC_CmdKeyValues *) (&msg);
-            KeyValues *kv           = keyval.kv;
-            while (kv)
-            {
-                if (kv->GetInt("count", 1333) != 1333)
-                {
-                    logging::Info("Upgrade: %d", kv->GetInt("upgrade"));
-                    logging::Info("Itemslot: %d", kv->GetInt("itemslot"));
-                    logging::Info("Count: %d", kv->GetInt("count"));
-                    kv->SetInt("free", 1);
-                }
-                kv = kv->GetNextKey();
-            }
-        }
-    }*/
     if (!strcmp(msg.GetName(), "clc_CmdKeyValues"))
     {
-        hacks::shared::antiaim::SendNetMessage(msg);
-        hacks::shared::catbot::SendNetMsg(msg);
+        hacks::antiaim::SendNetMessage(msg);
+        hacks::catbot::SendNetMsg(msg);
     }
     if (log_sent && msg.GetType() != 3 && msg.GetType() != 9)
     {
@@ -353,7 +281,7 @@ DEFINE_HOOKED_METHOD(SendNetMsg, bool, INetChannel *this_, INetMessage &msg, boo
         logging::Info("%i bytes => %s", buffer.GetNumBytesWritten(), bytes.c_str());
     }
     bool ret_val = original::SendNetMsg(this_, msg, force_reliable, voice);
-    hacks::tf2::nospread::SendNetMessagePost();
+    hacks::nospread::SendNetMessagePost();
     return ret_val;
 }
 } // namespace hooked_methods

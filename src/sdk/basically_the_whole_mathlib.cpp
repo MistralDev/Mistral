@@ -625,9 +625,9 @@ void QuaternionSlerpNoAlign(const Quaternion &p, const Quaternion &q, float t, Q
 
 const studiohdr_t *virtualgroup_t::GetStudioHdr(void) const
 {
-    return g_IMDLCache->GetStudioHdr((MDLHandle_t)(uintptr_t) cache & 0xffff);
+    return g_IMDLCache->GetStudioHdr((MDLHandle_t) (uintptr_t) cache & 0xffff);
 }
 int studiohdr_t::GetAutoplayList(unsigned short **pOut) const
 {
-    return g_IMDLCache->GetAutoplayList((MDLHandle_t)(uintptr_t) virtualModel & 0xffff, pOut);
+    return g_IMDLCache->GetAutoplayList((MDLHandle_t) (uintptr_t) virtualModel & 0xffff, pOut);
 }

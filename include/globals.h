@@ -14,14 +14,10 @@ class Vector;
 class CUserCmd;
 class ConVar;
 
-extern int g_AppID;
 // Amount of createmove ticks since cheat inject. This value ONLY GOES UP.
 extern unsigned long tickcount;
 
-extern ConVar *sv_client_min_interp_ratio;
-extern ConVar *cl_interp_ratio;
-extern ConVar *cl_interp;
-extern ConVar *cl_interpolate;
+extern ConVar *sv_client_min_interp_ratio, *sv_client_max_interp_ratio, *cl_interp_ratio, *cl_interp, *cl_interpolate, *cl_updaterate, *sv_maxupdaterate;
 
 extern bool *bSendPackets;
 extern bool need_name_change;

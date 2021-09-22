@@ -1585,7 +1585,7 @@ STBTT_DEF int stbtt_FindGlyphIndex(const stbtt_fontinfo *info, int unicode_codep
 
         {
             stbtt_uint16 offset, start;
-            stbtt_uint16 item = (stbtt_uint16)((search - endCount) >> 1);
+            stbtt_uint16 item = (stbtt_uint16) ((search - endCount) >> 1);
 
             STBTT_assert(unicode_codepoint <= ttUSHORT(data + endCount + 2 * item));
             start = ttUSHORT(data + index_map + 14 + segcount * 2 + 2 + 2 * item);
@@ -1594,7 +1594,7 @@ STBTT_DEF int stbtt_FindGlyphIndex(const stbtt_fontinfo *info, int unicode_codep
 
             offset = ttUSHORT(data + index_map + 14 + segcount * 6 + 2 + 2 * item);
             if (offset == 0)
-                return (stbtt_uint16)(unicode_codepoint + ttSHORT(data + index_map + 14 + segcount * 4 + 2 + 2 * item));
+                return (stbtt_uint16) (unicode_codepoint + ttSHORT(data + index_map + 14 + segcount * 4 + 2 + 2 * item));
 
             return ttUSHORT(data + offset + (unicode_codepoint - start) * 2 + index_map + 14 + segcount * 6 + 2 + 2 * item);
         }
@@ -1803,7 +1803,7 @@ static int stbtt__GetGlyphShapeTT(const stbtt_fontinfo *info, int glyph_index, s
             {
                 if (!(flags & 16))
                 {
-                    x = x + (stbtt_int16)(points[0] * 256 + points[1]);
+                    x = x + (stbtt_int16) (points[0] * 256 + points[1]);
                     points += 2;
                 }
             }
@@ -1824,7 +1824,7 @@ static int stbtt__GetGlyphShapeTT(const stbtt_fontinfo *info, int glyph_index, s
             {
                 if (!(flags & 32))
                 {
-                    y = y + (stbtt_int16)(points[0] * 256 + points[1]);
+                    y = y + (stbtt_int16) (points[0] * 256 + points[1]);
                     points += 2;
                 }
             }
@@ -1981,12 +1981,12 @@ static int stbtt__GetGlyphShapeTT(const stbtt_fontinfo *info, int glyph_index, s
                     stbtt_vertex_type x, y;
                     x     = v->x;
                     y     = v->y;
-                    v->x  = (stbtt_vertex_type)(m * (mtx[0] * x + mtx[2] * y + mtx[4]));
-                    v->y  = (stbtt_vertex_type)(n * (mtx[1] * x + mtx[3] * y + mtx[5]));
+                    v->x  = (stbtt_vertex_type) (m * (mtx[0] * x + mtx[2] * y + mtx[4]));
+                    v->y  = (stbtt_vertex_type) (n * (mtx[1] * x + mtx[3] * y + mtx[5]));
                     x     = v->cx;
                     y     = v->cy;
-                    v->cx = (stbtt_vertex_type)(m * (mtx[0] * x + mtx[2] * y + mtx[4]));
-                    v->cy = (stbtt_vertex_type)(n * (mtx[1] * x + mtx[3] * y + mtx[5]));
+                    v->cx = (stbtt_vertex_type) (m * (mtx[0] * x + mtx[2] * y + mtx[4]));
+                    v->cy = (stbtt_vertex_type) (n * (mtx[1] * x + mtx[3] * y + mtx[5]));
                 }
                 // Append vertices.
                 tmp = (stbtt_vertex *) STBTT_malloc((num_vertices + comp_num_verts) * sizeof(stbtt_vertex), info->userdata);
@@ -3116,17 +3116,17 @@ static void stbtt__fill_active_edges(unsigned char *scanline, int len, stbtt__ac
                     if (i == j)
                     {
                         // x0,x1 are the same pixel, so compute combined coverage
-                        scanline[i] = scanline[i] + (stbtt_uint8)((x1 - x0) * max_weight >> STBTT_FIXSHIFT);
+                        scanline[i] = scanline[i] + (stbtt_uint8) ((x1 - x0) * max_weight >> STBTT_FIXSHIFT);
                     }
                     else
                     {
                         if (i >= 0) // add antialiasing for x0
-                            scanline[i] = scanline[i] + (stbtt_uint8)(((STBTT_FIX - (x0 & STBTT_FIXMASK)) * max_weight) >> STBTT_FIXSHIFT);
+                            scanline[i] = scanline[i] + (stbtt_uint8) (((STBTT_FIX - (x0 & STBTT_FIXMASK)) * max_weight) >> STBTT_FIXSHIFT);
                         else
                             i = -1; // clip
 
                         if (j < len) // add antialiasing for x1
-                            scanline[j] = scanline[j] + (stbtt_uint8)(((x1 & STBTT_FIXMASK) * max_weight) >> STBTT_FIXSHIFT);
+                            scanline[j] = scanline[j] + (stbtt_uint8) (((x1 & STBTT_FIXMASK) * max_weight) >> STBTT_FIXSHIFT);
                         else
                             j = len; // clip
 
@@ -4103,8 +4103,8 @@ static int stbtt_BakeFontBitmap_internal(unsigned char *data, int offset,       
         stbtt_MakeGlyphBitmap(&f, pixels + x + y * pw, gw, gh, pw, scale, scale, g);
         chardata[i].x0       = (stbtt_int16) x;
         chardata[i].y0       = (stbtt_int16) y;
-        chardata[i].x1       = (stbtt_int16)(x + gw);
-        chardata[i].y1       = (stbtt_int16)(y + gh);
+        chardata[i].x1       = (stbtt_int16) (x + gw);
+        chardata[i].y1       = (stbtt_int16) (y + gh);
         chardata[i].xadvance = scale * advance;
         chardata[i].xoff     = (float) x0;
         chardata[i].yoff     = (float) y0;
@@ -4449,8 +4449,8 @@ STBTT_DEF int stbtt_PackFontRangesGatherRects(stbtt_pack_context *spc, const stb
             else
             {
                 stbtt_GetGlyphBitmapBoxSubpixel(info, glyph, scale * spc->h_oversample, scale * spc->v_oversample, 0, 0, &x0, &y0, &x1, &y1);
-                rects[k].w = (stbrp_coord)(x1 - x0 + spc->padding + spc->h_oversample - 1);
-                rects[k].h = (stbrp_coord)(y1 - y0 + spc->padding + spc->v_oversample - 1);
+                rects[k].w = (stbrp_coord) (x1 - x0 + spc->padding + spc->h_oversample - 1);
+                rects[k].h = (stbrp_coord) (y1 - y0 + spc->padding + spc->v_oversample - 1);
             }
             ++k;
         }
@@ -4522,8 +4522,8 @@ STBTT_DEF int stbtt_PackFontRangesRenderIntoRects(stbtt_pack_context *spc, const
 
                 bc->x0       = (stbtt_int16) r->x;
                 bc->y0       = (stbtt_int16) r->y;
-                bc->x1       = (stbtt_int16)(r->x + r->w);
-                bc->y1       = (stbtt_int16)(r->y + r->h);
+                bc->x1       = (stbtt_int16) (r->x + r->w);
+                bc->y1       = (stbtt_int16) (r->y + r->h);
                 bc->xadvance = scale * advance;
                 bc->xoff     = (float) x0 * recip_h + sub_x;
                 bc->yoff     = (float) y0 * recip_v + sub_y;

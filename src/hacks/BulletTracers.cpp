@@ -3,7 +3,7 @@
  */
 #include "common.hpp"
 
-namespace hacks::tf2::bullettracers
+namespace hacks::bullettracers
 {
 
 // CatEnum bullet_tracers_enum({ "OFF", "SNIPER RIFLES", "ALL WEAPONS", "LOCAL: SNIPER RIFLES", "LOCAL: ALL WEAPONS" });
@@ -48,13 +48,13 @@ const char *AppropiateBeam(int team)
     switch (*tracer_type)
     {
     case 0:
-        //Machina
+        // Machina
         if (team == TEAM_RED)
             return "dxhr_sniper_rail_red";
         else
             return "dxhr_sniper_rail_blue";
     case 1:
-        //C.A.P.P.E.R
+        // C.A.P.P.E.R
         if (re::CTFPlayerShared::IsCritBoosted(re::CTFPlayerShared::GetPlayerShared(RAW_ENT(LOCAL_E))))
         {
             if (team == TEAM_RED)
@@ -70,16 +70,16 @@ const char *AppropiateBeam(int team)
                 return "bullet_tracer_raygun_blue";
         }
     case 2:
-        //Short Circuit Zap
+        // Short Circuit Zap
         if (team == TEAM_RED)
             return "dxhr_lightningball_hit_zap_red";
         else
             return "dxhr_lightningball_hit_zap_blue";
     case 3:
-        //Merasmus Vortex
+        // Merasmus Vortex
         return "merasmus_zap_beam02";
     case 4:
-        //Merasmus Zap
+        // Merasmus Zap
         return "merasmus_zap";
     }
 }
@@ -322,4 +322,4 @@ static InitRoutine init(
             },
             "shutdown_bullettrace");
     });
-} // namespace hacks::tf2::bullettracers
+} // namespace hacks::bullettracers

@@ -58,7 +58,7 @@ void Update(CachedEntity *player)
                     logging::Info("[%d] Suspected BHop: %d", player->m_IDX, data.detections);
                     if ((tickcount - data.last_accusation) > 600)
                     {
-                        hacks::shared::anticheat::Accuse(player->m_IDX, "Bunnyhop", format("Perfect jumps = ", data.detections));
+                        hacks::anticheat::Accuse(player->m_IDX, "Bunnyhop", format("Perfect jumps = ", data.detections));
                         data.last_accusation = tickcount;
                     }
                 }
@@ -71,9 +71,5 @@ void Update(CachedEntity *player)
         data.ticks_on_ground = 0;
     }
     data.was_on_ground = ground;
-}
-
-void Event(KeyValues *event)
-{
 }
 } // namespace ac::bhop

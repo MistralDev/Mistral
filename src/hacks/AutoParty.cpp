@@ -54,7 +54,7 @@
 #include "hack.hpp"
 #include "ipc.hpp"
 
-namespace hacks::tf2::autoparty
+namespace hacks::autoparty
 {
 // Enable auto-party?
 static settings::Boolean enabled{ "autoparty.enable", "false" };
@@ -352,9 +352,11 @@ void party_routine()
     }
 }
 
-static InitRoutine init([]() {
-    host_list.installChangeCallback([](settings::VariableBase<std::string> &var, std::string after) { repopulate(after); });
-    ipc_mode.installChangeCallback([](settings::VariableBase<bool> &var, bool after) { party_hosts.clear(); });
-    EC::Register(EC::Paint, party_routine, "paint_autoparty", EC::average);
-});
-} // namespace hacks::tf2::autoparty
+static InitRoutine init(
+    []()
+    {
+        host_list.installChangeCallback([](settings::VariableBase<std::string> &var, std::string after) { repopulate(after); });
+        ipc_mode.installChangeCallback([](settings::VariableBase<bool> &var, bool after) { party_hosts.clear(); });
+        EC::Register(EC::Paint, party_routine, "paint_autoparty", EC::average);
+    });
+} // namespace hacks::autoparty

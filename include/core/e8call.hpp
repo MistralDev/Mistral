@@ -15,7 +15,7 @@ inline void *e8call(void *address)
 }
 inline uintptr_t e8call(uintptr_t address)
 {
-    return (uintptr_t)(e8call((void *) address));
+    return (uintptr_t) (e8call((void *) address));
 }
 inline uintptr_t e8call_direct(uintptr_t address)
 {

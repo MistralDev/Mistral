@@ -9,7 +9,7 @@
 #include <settings/Bool.hpp>
 #include <boost/circular_buffer.hpp>
 
-namespace hacks::shared::aimbot
+namespace hacks::aimbot
 {
 extern settings::Boolean engine_projpred;
 }
@@ -754,7 +754,7 @@ static InitRoutine init(
             []()
             {
                 // Don't run if we don't use it
-                if (!hacks::shared::aimbot::engine_projpred && !debug_pp_draw)
+                if (!hacks::aimbot::engine_projpred && !debug_pp_draw)
                     return;
                 for (int i = 1; i < g_GlobalVars->maxClients; i++)
                 {

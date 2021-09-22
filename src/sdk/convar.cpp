@@ -607,7 +607,7 @@ int ConCommand::AutoCompleteSuggest(const char *partial, CUtlVector<CUtlString> 
         return 0;
 
     char rgpchCommands[COMMAND_COMPLETION_MAXITEMS][COMMAND_COMPLETION_ITEM_LENGTH];
-    int iret = (m_fnCompletionCallback)(partial, rgpchCommands);
+    int iret = (m_fnCompletionCallback) (partial, rgpchCommands);
     for (int i = 0; i < iret; ++i)
     {
         CUtlString str = rgpchCommands[i];

@@ -111,7 +111,7 @@ void ImGui_Impl_Render(ImDrawData *draw_data)
                     glScissor((int) clip_rect.x, (int) (fb_height - clip_rect.w), (int) (clip_rect.z - clip_rect.x), (int) (clip_rect.w - clip_rect.y));
 
                     // Bind texture, Draw
-                    glBindTexture(GL_TEXTURE_2D, (GLuint)(intptr_t) pcmd->TextureId);
+                    glBindTexture(GL_TEXTURE_2D, (GLuint) (intptr_t) pcmd->TextureId);
                     glDrawElements(GL_TRIANGLES, (GLsizei) pcmd->ElemCount, GL_UNSIGNED_INT, idx_buffer);
                 }
             }

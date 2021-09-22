@@ -36,7 +36,7 @@ void BaseMenuObject::render()
 {
     float w, h;
     font = &resource::font::base;
-    
+
     font->stringSize(label, &w, &h);
     int length = int(w);
     if (tooltip.has_value() && isHoveredText(length))
@@ -187,7 +187,7 @@ void BaseMenuObject::loadFromXml(const tinyxml2::XMLElement *data)
 
     if (tinyxml2::XML_SUCCESS == data->QueryStringAttribute("label", &str))
         label = str;
-    
+
     if (tinyxml2::XML_SUCCESS == data->QueryStringAttribute("id", &str))
         string_id = str;
 

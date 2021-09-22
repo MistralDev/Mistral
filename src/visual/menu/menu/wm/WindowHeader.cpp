@@ -9,10 +9,10 @@
 */
 namespace zerokernel_windowheader
 {
-static settings::RVariable<rgba_t> color_background{ "zk.style.window-header.color.background.inactive", "00000000" };
-static settings::RVariable<rgba_t> color_background_focused{ "zk.style.window-header.color.background.active", "446498ff" };
-static settings::RVariable<rgba_t> color_border{ "zk.style.window-header.color.border.inactive", "446498ff" };
-static settings::RVariable<rgba_t> color_border_focused{ "zk.style.window-header.color.border.active", "446498ff" };
+static settings::RVariable<rgba_t> color_background{ "zk.style.window-header.color.background.inactive", "2a2a2aff" };
+static settings::RVariable<rgba_t> color_background_focused{ "zk.style.window-header.color.background.active", "2a2a2aff" };
+static settings::RVariable<rgba_t> color_border{ "zk.style.window-header.color.border.inactive", "000000ff" };
+static settings::RVariable<rgba_t> color_border_focused{ "zk.style.window-header.color.border.active", "000000ff" };
 } // namespace zerokernel_windowheader
 
 zerokernel::WindowHeader::WindowHeader(WMWindow &window) : BaseMenuObject(), window(window), close()

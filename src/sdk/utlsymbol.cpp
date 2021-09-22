@@ -365,7 +365,7 @@ FileNameHandle_t CUtlFilenameSymbolTable::FindFileName(const char *pFileName)
 
     FileNameHandleInternal_t handle;
 
-    Assert((uint16)(m_Strings->InvalidHandle() + 1) == 0);
+    Assert((uint16) (m_Strings->InvalidHandle() + 1) == 0);
 
     m_lock.LockForRead();
     handle.path = m_Strings->Find(basepath) + 1;

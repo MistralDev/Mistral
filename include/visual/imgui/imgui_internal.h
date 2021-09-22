@@ -349,7 +349,7 @@ template <typename T> static inline T ImClamp(T v, T mn, T mx)
 }
 template <typename T> static inline T ImLerp(T a, T b, float t)
 {
-    return (T)(a + (b - a) * t);
+    return (T) (a + (b - a) * t);
 }
 template <typename T> static inline void ImSwap(T &a, T &b)
 {
@@ -509,7 +509,7 @@ template <typename T> struct IMGUI_API ImPool
     ImPoolIdx GetIndex(const T *p) const
     {
         IM_ASSERT(p >= Data.Data && p < Data.Data + Data.Size);
-        return (ImPoolIdx)(p - Data.Data);
+        return (ImPoolIdx) (p - Data.Data);
     }
     T *GetOrAddByKey(ImGuiID key)
     {
@@ -930,7 +930,8 @@ struct ImGuiColorMod
 struct ImGuiStyleMod
 {
     ImGuiStyleVar VarIdx;
-    union {
+    union
+    {
         int BackupInt[2];
         float BackupFloat[2];
     };

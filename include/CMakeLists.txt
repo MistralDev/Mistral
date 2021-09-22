@@ -9,7 +9,7 @@ add_subdirectory(reclasses)
 add_subdirectory(sdk)
 add_subdirectory(settings)
 
-if(EnableVisuals)
+if (EnableVisuals)
     add_subdirectory(visual)
-endif()
+endif ()
 

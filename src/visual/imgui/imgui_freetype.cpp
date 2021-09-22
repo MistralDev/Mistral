@@ -379,7 +379,7 @@ bool ImFontAtlasBuildWithFreeType(FT_Library ft_library, ImFontAtlas *atlas, uns
                     {
                         ImFontBuildSrcGlyphFT src_glyph;
                         memset(&src_glyph, 0, sizeof(src_glyph));
-                        src_glyph.Codepoint = (ImWchar)(((it - it_begin) << 5) + bit_n);
+                        src_glyph.Codepoint = (ImWchar) (((it - it_begin) << 5) + bit_n);
                         // src_glyph.GlyphIndex = 0; // FIXME-OPT: We had this info in the previous step and lost it..
                         src_tmp.GlyphsList.push_back(src_glyph);
                     }
@@ -453,8 +453,8 @@ bool ImFontAtlasBuildWithFreeType(FT_Library ft_library, ImFontAtlas *atlas, uns
             buf_bitmap_current_used_bytes += bitmap_size_in_bytes;
             src_tmp.Font.BlitGlyph(ft_bitmap, src_glyph.BitmapData, src_glyph.Info.Width * 1, multiply_enabled ? multiply_table : NULL);
 
-            src_tmp.Rects[glyph_i].w = (stbrp_coord)(src_glyph.Info.Width + padding);
-            src_tmp.Rects[glyph_i].h = (stbrp_coord)(src_glyph.Info.Height + padding);
+            src_tmp.Rects[glyph_i].w = (stbrp_coord) (src_glyph.Info.Width + padding);
+            src_tmp.Rects[glyph_i].h = (stbrp_coord) (src_glyph.Info.Height + padding);
             total_surface += src_tmp.Rects[glyph_i].w * src_tmp.Rects[glyph_i].h;
         }
     }

@@ -16,7 +16,7 @@
 #include "SettingCommands.hpp"
 #include "glob.h"
 
-namespace hacks::shared::catbot
+namespace hacks::catbot
 {
 static settings::Boolean auto_disguise{ "misc.autodisguise", "true" };
 
@@ -350,12 +350,12 @@ static std::vector<Posinfo> spot_list;
         }
     }
     Posinfo to_path                        = best_spot;
-    hacks::tf2::NavBot::task::current_task = hacks::tf2::NavBot::task::outofbounds;
+    hacks::NavBot::task::current_task = hacks::NavBot::task::outofbounds;
     bool success                           = nav::navTo(Vector{ to_path.x, to_path.y, to_path.z }, 8, true, true);
     if (!success)
     {
         logging::Info("No valid spots found!");
-        hacks::tf2::NavBot::task::current_task = hacks::tf2::NavBot::task::none;
+        hacks::NavBot::task::current_task = hacks::NavBot::task::none;
         return;
     }
 }
@@ -389,10 +389,10 @@ static InitRoutine init_routine([]() {
             std::string lvlname = g_IEngine->GetLevelName();
             if (lvlname.find("mvm_") == lvlname.npos)
                 return;
-            if (hacks::tf2::NavBot::task::current_task == hacks::tf2::NavBot::task::outofbounds)
+            if (hacks::NavBot::task::current_task == hacks::NavBot::task::outofbounds)
             {
                 if (nav::ReadyForCommands)
-                    hacks::tf2::NavBot::task::current_task = hacks::tf2::NavBot::task::none;
+                    hacks::NavBot::task::current_task = hacks::NavBot::task::none;
                 else
                     return;
             }
@@ -926,7 +926,7 @@ void shutdown()
     g_IEventManager2->RemoveListener(&listener2());
 }
 
-#if ENABLE_VISUALS
+/*#if ENABLE_VISUALS
 static void draw()
 {
     if (!catbotmode || !anti_motd)
@@ -936,7 +936,7 @@ static void draw()
     AddCenterString(health, colors::green);
     AddCenterString(ammo, colors::yellow);
 }
-#endif
+#endif*/
 
 static InitRoutine runinit(
     []()
@@ -945,9 +945,9 @@ static InitRoutine runinit(
         EC::Register(EC::CreateMove, update, "cm2_catbot", EC::average);
         EC::Register(EC::LevelInit, level_init, "levelinit_catbot", EC::average);
         EC::Register(EC::Shutdown, shutdown, "shutdown_catbot", EC::average);
-#if ENABLE_VISUALS
-        EC::Register(EC::Draw, draw, "draw_catbot", EC::average);
-#endif
+        /*#if ENABLE_VISUALS
+                EC::Register(EC::Draw, draw, "draw_catbot", EC::average);
+        #endif*/
         init();
     });
-} // namespace hacks::shared::catbot
+} // namespace hacks::catbot

@@ -14,7 +14,7 @@
 #include "MiscAimbot.hpp"
 #include "Misc.hpp"
 
-namespace hacks::tf2::NavBot
+namespace hacks::NavBot
 {
 static settings::Boolean enabled("navbot.enabled", "false");
 static settings::Boolean search_health("navbot.search-health", "true");
@@ -135,7 +135,7 @@ std::vector<CachedEntity *> getDispensers()
 }
 
 // Get entities of given itemtypes (Used for health/ammo)
-std::vector<CachedEntity *> getEntities(const std::vector<k_EItemType> &itemtypes)
+/*std::vector<CachedEntity *> getEntities(const std::vector<k_EItemType> &itemtypes)
 {
     std::vector<CachedEntity *> entities;
     for (int i = g_IEngine->GetMaxClients() + 1; i < MAX_ENTITIES; i++)
@@ -237,7 +237,7 @@ bool getAmmo(bool force = false)
     else if (navparser::NavEngine::current_priority == ammo && !was_force)
         navparser::NavEngine::cancelPath();
     return false;
-}
+}*/
 
 // Vector of sniper spot positions we can nav to
 std::vector<Vector> sniper_spots;
@@ -816,7 +816,7 @@ bool meleeAttack(int slot, std::pair<CachedEntity *, float> &nearest)
     }
 
     // Charge aimbot things
-    if (hacks::tf2::misc_aimbot::ShouldChargeAim() && re::C_BasePlayer::GetEquippedDemoShield(raw_local) && re::CTFPlayerShared::GetChargeMeter(re::CTFPlayerShared::GetPlayerShared(raw_local)) == 100.0f)
+    if (hacks::misc_aimbot::ShouldChargeAim() && re::C_BasePlayer::GetEquippedDemoShield(raw_local) && re::CTFPlayerShared::GetChargeMeter(re::CTFPlayerShared::GetPlayerShared(raw_local)) == 100.0f)
     {
         // Distance normally covered per second by charge
         float distance_per_second = 750.0f;
@@ -996,13 +996,13 @@ static bool buildBuilding(int building)
         if (attempt_timer.test_and_set(300))
             build_attempts++;
 
-        if (hacks::shared::misc::getCarriedBuilding() == -1)
+        if (hacks::misc::getCarriedBuilding() == -1)
         {
             static Timer command_timer;
             if (command_timer.test_and_set(100))
                 g_IEngine->ClientCmd_Unrestricted(strfmt("build %d", building).get());
         }
-        else if (CE_INT(ENTITY(hacks::shared::misc::getCarriedBuilding()), netvar.m_bCanPlace))
+        else if (CE_INT(ENTITY(hacks::misc::getCarriedBuilding()), netvar.m_bCanPlace))
             current_user_cmd->buttons |= IN_ATTACK;
         return true;
     }
@@ -1595,4 +1595,4 @@ static InitRoutine init(
         LevelInit();
     });
 
-} // namespace hacks::tf2::NavBot
+} // namespace hacks::NavBot

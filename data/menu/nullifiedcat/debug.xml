@@ -1,6 +1,7 @@
 <Tab name="Debug" padding="4 4 4 4">
     <Box padding="12 6 6 6" width="content" height="content" name="Debug">
         <List width="200">
+            <AutoVariable width="fill" target="misc.engine-prediction" label="Engine prediction"/>
             <AutoVariable width="fill" target="debug.cursor-fix" label="Cursor fix"/>
             <AutoVariable width="fill" target="debug.engine-pred-others" label="Engine pred others"/>
             <AutoVariable width="fill" target="debug.fast-vischeck" label="Fast vischeck"/>

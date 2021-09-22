@@ -2,8 +2,9 @@ const fs = require("fs");
 
 var fullClassTable = {};
 try {
-	fullClassTable = JSON.parse(fs.readFileSync("full-class-table.json").toString());
-} catch (e) {}
+    fullClassTable = JSON.parse(fs.readFileSync("full-class-table.json").toString());
+} catch (e) {
+}
 
 const file = fs.readFileSync(process.argv[2]).toString().split("\n");
 const modname = process.argv[3];
@@ -12,11 +13,11 @@ console.log("Generating info for", modname, "from", process.argv[2]);
 
 var classes = {};
 for (var i in file) {
-	var classInfo = /\[(\d+)\] (\w+)/gi.exec(file[i]);	
-	if (classInfo) {
-		fullClassTable[classInfo[2]] = true;
-		classes[classInfo[2]] = parseInt(classInfo[1]);
-	}
+    var classInfo = /\[(\d+)\] (\w+)/gi.exec(file[i]);
+    if (classInfo) {
+        fullClassTable[classInfo[2]] = true;
+        classes[classInfo[2]] = parseInt(classInfo[1]);
+    }
 }
 
 fs.writeFileSync("full-class-table.json", JSON.stringify(fullClassTable));
@@ -50,10 +51,10 @@ namespace client_classes {
 `;
 
 for (var clz in fullClassTable) {
-	var value = "0";
-	if (classes[clz]) value = classes[clz];
-	headerConstexpr += "\t\tstatic constexpr int " + clz + " = " + value + ";\n";
-	header += "\t\tint " + clz + " { " + value + " };\n";
+    var value = "0";
+    if (classes[clz]) value = classes[clz];
+    headerConstexpr += "\t\tstatic constexpr int " + clz + " = " + value + ";\n";
+    header += "\t\tint " + clz + " { " + value + " };\n";
 }
 
 header += `
