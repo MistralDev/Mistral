@@ -34,7 +34,7 @@ std::string getDataPath(std::string subpath)
             if (xdg_data_dir.empty())
                 cached_data_path = DATA_PATH;
             else
-                cached_data_path = xdg_data_dir + "/cathook/data";
+                cached_data_path = xdg_data_dir + "/Mistral/data";
 #else
             cached_data_path = DATA_PATH;
 #endif
