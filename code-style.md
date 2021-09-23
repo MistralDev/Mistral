@@ -1,5 +1,3 @@
-# NullWorks code style (Work in progress)
-
 ## C/C++
 
 ### General
