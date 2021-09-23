@@ -8,6 +8,21 @@
 
 Free open-source GNU/Linux training software for **Team Fortress 2** game. Designed as an internal cheat - [Shared Library](https://en.wikipedia.org/wiki/Library_(computing)#Shared_libraries) (SO) loadable into game process. Compatible with the Steam version of the game.
 
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Getting started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Downloading](#downloading)
+  - [Compiling from source](#compiling-from-source)
+  - [Loading / Injecting into game process](#loading--injecting-into-game-process)
+- [FAQ](#faq)
+  - [How do I open menu?](#how-do-i-open-menu)
+  - [Where is my config file saved?](#where-is-my-config-file-saved)
+  - [Loading / Injecting into game process](#loading--injecting-into-game-process)
+- [Acknowledgments](#acknowledgments)
+- [See also](#see-also)
+
 ## Getting started
 
 ### Prerequisites
